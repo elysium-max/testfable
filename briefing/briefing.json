@@ -1,0 +1,60 @@
+{
+  "generatedAt": "2026-06-09T19:50:00Z",
+  "northStar": "QTS over the line, train steady until Kołobrzeg",
+  "proposedDay": {
+    "nowSrcId": "aspire:signup-call",
+    "nextSrcIds": ["qts:compliance", "ealing:overseas-voter", "inpost:963995"]
+  },
+  "tasks": [
+    { "srcId": "aspire:signup-call", "ico": "📞", "title": "Call Aspire4Fitness to sign up for bootcamp", "meta": "Keyworth · pick Mon/Thu slot (10:00 or 18:30) and Wed (07:00 or 18:30)", "due": "2026-06-10", "suggestedLane": "next", "source": "memory" },
+    { "srcId": "qts:compliance", "ico": "🎓", "title": "Start Tes QTS compliance checklist", "meta": "from the offer email", "due": "2026-06-12", "suggestedLane": "next", "source": "gmail" },
+    { "srcId": "ealing:overseas-voter", "ico": "🗳️", "title": "Renew overseas voter registration", "meta": "form attached in Ealing email, ~5 min", "due": "2026-06-13", "suggestedLane": "next", "source": "gmail" },
+    { "srcId": "inpost:963995", "ico": "📦", "title": "Collect InPost parcel (…963995)", "meta": "Koszyk365.pl · paczkomat", "due": "2026-06-11", "suggestedLane": "next", "source": "gmail" },
+    { "srcId": "zus:may-2026", "ico": "💼", "title": "Pay ZUS for May", "meta": "details in Biuro Szabo email", "due": "2026-06-22", "suggestedLane": "later", "source": "gmail" },
+    { "srcId": "pushfar:edmore", "ico": "🤝", "title": "Schedule mentoring with Edmore", "meta": "overdue per PushFar · offer two slots", "due": "2026-06-12", "suggestedLane": "later", "source": "gmail" },
+    { "srcId": "qts:numeracy-prep", "ico": "📝", "title": "Practice numeracy test (Zofia's links)", "meta": "QTS skills tests · likely sat in the UK", "due": "2026-06-18", "suggestedLane": "later", "source": "gmail" },
+    { "srcId": "qts:test-dates", "ico": "✉️", "title": "Confirm skills-test dates with placement school", "meta": "from QTS thread", "due": "2026-06-15", "suggestedLane": "later", "source": "gmail" }
+  ],
+  "inbox": [
+    { "srcId": "gmail:qts-offer", "ico": "🎓", "title": "Tes QTS, conditional offer received", "from": "Andrew Locke · Tes · 9 Jun", "body": "Congratulations, conditional offer to join the Assessment Only programme, subject to compliance requirements. cc Zofia and Katarzyna (Akademeia).", "urgency": "hot", "action": "Work through the compliance checklist" },
+    { "srcId": "gmail:ealing-voter", "ico": "🗳️", "title": "Overseas voter registration expiring", "from": "Ealing Council · 3 Jun", "body": "Registration due to expire shortly. Renewal form attached, or renew online. About 5 minutes.", "urgency": "hot", "action": "Renew now" },
+    { "srcId": "gmail:qts-thread", "ico": "🧑‍🏫", "title": "QTS thread, mentor plus numeracy and literacy tests", "from": "Zofia Reeves · 9 Jun", "body": "Mentor being confirmed. Skills tests likely sat in the UK, practice links sent. In Poland Fri 19 Jun for graduation, school visit possible that afternoon.", "urgency": "act", "action": "Confirm test dates with placement school" },
+    { "srcId": "gmail:zus-may", "ico": "💼", "title": "ZUS contributions, May 2026", "from": "Biuro Szabo · 1 Jun", "body": "Social security payment for May coming up. Usual self-employed deadline is the 20th, a Saturday, so Mon 22 Jun.", "urgency": "act", "action": "Pay by Mon 22 Jun" },
+    { "srcId": "gmail:inpost", "ico": "📦", "title": "InPost parcel waiting, Koszyk365.pl", "from": "InPost · 9 Jun", "body": "Parcel no. …963995 (home goods) is in the paczkomat. Pickup windows usually expire after 48h.", "urgency": "act", "action": "Collect by Thu 11 Jun" },
+    { "srcId": "gmail:pushfar", "ico": "🤝", "title": "Mentoring meeting with Edmore, overdue", "from": "PushFar · 28 May", "body": "Overdue a mentoring meeting with Edmore. Schedule one to stay on track.", "urgency": "act", "action": "Send Edmore two time options" },
+    { "srcId": "gmail:radisson", "ico": "🏨", "title": "Kołobrzeg holiday confirmed, 11 to 25 Jul", "from": "Radisson · 31 May", "body": "Radisson Resort Kołobrzeg, reservation 2LJZZ9GN. Starts the day after the bootcamp block ends.", "urgency": "info" },
+    { "srcId": "gmail:labour", "ico": "🌹", "title": "Labour Party membership application received", "from": "Labour · 29 May", "body": "Application acknowledged and being processed.", "urgency": "info" },
+    { "srcId": "gmail:github-verify", "ico": "🔐", "title": "GitHub device verification", "from": "GitHub · 9 Jun", "body": "A sign-in attempt asked for device verification (account elysium-max).", "urgency": "ok", "action": "If that was you, done. If not, rotate password" }
+  ],
+  "calendar": [
+    { "srcId": "gcal:gym-0614", "date": "2026-06-14", "time": "08:00", "end": "09:30", "title": "💪 Gym", "note": "weekly session, 8:00 to 9:30" },
+    { "srcId": "gcal:graduation", "date": "2026-06-19", "time": "19:00", "end": "22:00", "title": "🎓 Graduation", "note": "in Poland, travel day, school visit possible in the afternoon" },
+    { "srcId": "gcal:gym-0621", "date": "2026-06-21", "time": "08:00", "end": "09:30", "title": "💪 Gym", "note": "weekly session, 8:00 to 9:30" },
+    { "srcId": "gcal:gym-0628", "date": "2026-06-28", "time": "08:00", "end": "09:30", "title": "💪 Gym", "note": "weekly session, 8:00 to 9:30" },
+    { "srcId": "gcal:gym-0705", "date": "2026-07-05", "time": "08:00", "end": "09:30", "title": "💪 Gym", "note": "weekly session, 8:00 to 9:30" },
+    { "srcId": "gcal:kolobrzeg", "date": "2026-07-11", "time": "15:00", "end": "16:00", "title": "🏖 Kołobrzeg check-in (until 25 Jul)", "note": "Radisson, res. 2LJZZ9GN" }
+  ],
+  "training": {
+    "block": {
+      "firstWeek": "2026-06-08",
+      "until": "2026-07-10",
+      "exceptions": { "2026-06-18": "graduation travel" }
+    },
+    "rules": {
+      "1": { "kind": "bootcamp", "ico": "🏋️", "title": "Bootcamp, Aspire4Fitness", "time": "10:00–11:00 or 18:30–19:30" },
+      "2": { "kind": "run", "ico": "🏃", "title": "Run Club, Aspire4Fitness", "time": "18:00–18:45", "extra": "optional after: School of Calisthenics 19:30–20:30, book via their site" },
+      "3": { "kind": "bootcamp", "ico": "🏋️", "title": "Bootcamp, Aspire4Fitness", "time": "07:00–07:45 or 18:30–19:30" },
+      "4": { "kind": "bootcamp", "ico": "🏋️", "title": "Bootcamp, Aspire4Fitness", "time": "10:00–11:00 or 18:30–19:30" },
+      "6": { "kind": "run", "ico": "🏃", "title": "Saturday run, your route", "time": "pick your time", "extra": "Aspire bootcamp also runs Sat 09:30–10:30 if you fancy a double" }
+    },
+    "stravaRunDates": ["2026-04-25", "2026-04-28", "2026-05-03", "2026-05-13", "2026-05-28", "2026-05-31", "2026-06-05", "2026-06-06"],
+    "volWeeks": [
+      { "label": "16 Mar", "km": 5.8 }, { "label": "23 Mar", "km": 0 }, { "label": "30 Mar", "km": 0 },
+      { "label": "6 Apr", "km": 14.1 }, { "label": "13 Apr", "km": 0 }, { "label": "20 Apr", "km": 8.0 },
+      { "label": "27 Apr", "km": 11.6 }, { "label": "4 May", "km": 0 }, { "label": "11 May", "km": 2.6 },
+      { "label": "18 May", "km": 0 }, { "label": "25 May", "km": 8.0 }, { "label": "1 Jun", "km": 7.4 },
+      { "label": "8 Jun", "km": 0, "current": true }
+    ],
+    "stats": { "bestRecentPace": "6:24", "prPace": "5:45", "last30": { "km": 18.0, "runs": 5 } }
+  }
+}

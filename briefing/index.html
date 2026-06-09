@@ -3,7 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Personal HQ — Brendan</title>
+<meta name="theme-color" content="#0c0f14">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-192.png">
+<title>Personal HQ</title>
 <style>
   :root {
     --bg: #0c0f14;
@@ -27,7 +30,7 @@
     color: var(--text);
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     line-height: 1.5;
-    padding: 20px 14px 90px;
+    padding: 20px 14px 110px;
   }
   .wrap { max-width: 1080px; margin: 0 auto; }
   button { font: inherit; cursor: pointer; border: none; border-radius: 10px; color: inherit; background: none; }
@@ -43,6 +46,13 @@
   .statpills { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
   .pill { background: var(--panel); border: 1px solid var(--line); border-radius: 999px; padding: 6px 14px; font-size: .82rem; color: var(--muted); white-space: nowrap; }
   .pill b { color: var(--text); }
+  #ageline.amber { color: var(--warn); }
+  #ageline.red { color: var(--bad); font-weight: 700; }
+  #refreshHow { color: var(--blue); font-size: .84rem; padding: 0 2px; }
+  #refreshTip { display: none; background: var(--panel); border: 1px solid var(--line); border-radius: 10px;
+                padding: 10px 14px; margin-top: 8px; font-size: .84rem; color: var(--muted); max-width: 560px; }
+  #refreshTip b { color: var(--text); }
+  #northstar { font-size: .84rem; color: #9fc0f5; margin-top: 4px; }
 
   /* ---------- nav ---------- */
   nav { position: sticky; top: 0; z-index: 50; background: rgba(12,15,20,.88); backdrop-filter: blur(8px);
@@ -63,6 +73,16 @@
   .card.closed .chev { transform: rotate(-90deg); }
   .card-body { padding: 4px 18px 18px; }
   .card.closed .card-body { display: none; }
+
+  /* ---------- proposed day ---------- */
+  #proposal { border-color: rgba(74,134,232,.45); }
+  #proposal .card-body { padding: 16px 18px; }
+  #proposal .kicker { color: var(--blue); }
+  #propText { margin: 8px 0 12px; font-size: .95rem; }
+  #propText b { font-size: 1.05rem; }
+  .proprow { display: flex; gap: 10px; flex-wrap: wrap; }
+  #propAccept { background: linear-gradient(90deg, var(--accent), #ff8a4d); color: #fff; font-weight: 800; padding: 10px 24px; border-radius: 11px; }
+  #propTweak { background: var(--panel-2); border: 1px solid var(--line); color: var(--muted); padding: 10px 18px; border-radius: 11px; }
 
   /* ---------- now / next / later ---------- */
   .lanes { display: grid; gap: 12px; grid-template-columns: 1fr; }
@@ -143,12 +163,15 @@
   .schedrow .body { flex: 1; }
   .schedrow .title { font-weight: 600; font-size: .92rem; }
   .schedrow .sub2 { color: var(--muted); font-size: .76rem; }
-  .schedrow.done-row .title { text-decoration: line-through; color: var(--muted); }
+  .schedrow.done-row .title, .schedrow.skip-row .title { text-decoration: line-through; color: var(--muted); }
   .schedrow .badge { font-size: .7rem; font-weight: 700; border-radius: 999px; padding: 2px 9px; margin-left: 6px; vertical-align: 1px; }
   .badge.strava { background: rgba(252,82,0,.14); color: #ffb38f; border: 1px solid rgba(252,82,0,.4); }
-  .badge.missed { background: rgba(240,106,106,.12); color: var(--bad); border: 1px solid rgba(240,106,106,.4); }
+  .badge.quiet { background: rgba(139,150,171,.12); color: var(--muted); border: 1px solid rgba(139,150,171,.3); }
   .badge.todayb { background: rgba(67,214,146,.12); color: var(--good); border: 1px solid rgba(67,214,146,.35); }
   .schedrow .tickbtn.on { border-color: var(--good); background: rgba(67,214,146,.25); color: var(--good); }
+  .skipbtn { background: var(--panel-2); border: 1px solid var(--line); color: var(--muted);
+             font-size: .7rem; padding: 4px 10px; border-radius: 999px; margin-top: 3px; }
+  .skipbtn:hover { color: var(--text); }
 
   .season { margin-top: 16px; overflow-x: auto; }
   .season table { border-collapse: collapse; font-size: .78rem; min-width: 420px; }
@@ -156,7 +179,8 @@
   .season td { padding: 4px 7px; text-align: center; border-radius: 6px; }
   .season .wklbl { color: var(--muted); text-align: left; white-space: nowrap; }
   .season .s-done { color: var(--good); }
-  .season .s-miss { color: var(--bad); opacity: .8; }
+  .season .s-miss { color: var(--muted); }
+  .season .s-skip { color: var(--muted); }
   .season .s-fut { color: #b9c3d6; }
   .season .s-off { color: var(--line); }
   .season .s-exc { color: var(--warn); }
@@ -183,7 +207,7 @@
   .shoplist li.done .tickbtn { border-color: var(--good); background: rgba(67,214,146,.25); color: var(--good); }
   .shoplist .del { margin-left: auto; color: var(--muted); font-size: 1rem; padding: 4px 8px; }
   .shoplist .del:hover { color: var(--bad); }
-  .clearbtn { margin-top: 10px; background: var(--panel-2); border: 1px solid var(--line); color: var(--muted);
+  .clearbtn { background: var(--panel-2); border: 1px solid var(--line); color: var(--muted);
               padding: 7px 15px; font-size: .8rem; border-radius: 999px; }
 
   /* ---------- focus overlay ---------- */
@@ -201,8 +225,20 @@
   #ovTimer { background: var(--panel-2); color: var(--text); border: 1px solid var(--line); }
   #ovExit { color: var(--muted); }
 
+  /* ---------- quick capture ---------- */
+  #fab { position: fixed; right: 18px; bottom: 18px; z-index: 90; width: 58px; height: 58px; border-radius: 50%;
+         background: linear-gradient(135deg, var(--accent), #ff8a4d); color: #fff; font-size: 2rem; font-weight: 700;
+         box-shadow: 0 6px 22px rgba(0,0,0,.5); display: flex; align-items: center; justify-content: center; }
+  #capOv { position: fixed; inset: 0; background: rgba(8,10,14,.93); z-index: 120; display: none;
+           align-items: flex-start; justify-content: center; padding: 16vh 16px 0; }
+  #capOv.on { display: flex; }
+  #capBox { width: min(560px, 94vw); }
+  #capBox input { width: 100%; background: var(--panel); border: 1px solid var(--accent); border-radius: 14px;
+                  color: var(--text); padding: 16px 18px; font-size: 1.05rem; }
+  #capBox .sub { margin-top: 10px; text-align: center; }
+
   /* ---------- snackbar ---------- */
-  #snack { position: fixed; left: 50%; bottom: 22px; transform: translateX(-50%) translateY(80px); z-index: 150;
+  #snack { position: fixed; left: 50%; bottom: 88px; transform: translateX(-50%) translateY(140px); z-index: 150;
            background: var(--panel-2); border: 1px solid var(--line); border-radius: 12px; padding: 11px 16px;
            display: flex; gap: 14px; align-items: center; font-size: .88rem; box-shadow: 0 8px 30px rgba(0,0,0,.5);
            transition: transform .25s ease; max-width: 92vw; }
@@ -218,6 +254,7 @@
   }
 
   footer { color: var(--muted); font-size: .76rem; text-align: center; margin-top: 30px; }
+  .datarow { display: flex; gap: 10px; justify-content: center; margin-top: 14px; }
 </style>
 </head>
 <body>
@@ -225,14 +262,17 @@
 
   <div class="topbar">
     <div>
-      <div class="kicker">Personal HQ · Keyworth</div>
+      <div class="kicker">Personal HQ</div>
       <h1 id="greet">Hello, Brendan</h1>
-      <div class="sub" id="datesub"></div>
+      <div class="sub"><span id="ageline">loading briefing…</span> · <button id="refreshHow">how to refresh</button></div>
+      <div id="refreshTip">Say to Claude (app, chat or Claude Code): <b>"refresh my HQ briefing"</b>.
+        Claude reads Gmail, Calendar and Strava, rewrites <b>briefing.json</b> and proposes your day.
+        Everything you have edited here is kept.</div>
+      <div id="northstar"></div>
     </div>
     <div class="statpills">
       <span class="pill">🔥 <b id="streak">0</b> day streak</span>
       <span class="pill">✅ Today <b id="dayprog">0/0</b></span>
-      <span class="pill">🏖 Kołobrzeg in <b id="holcount">–</b>d</span>
     </div>
   </div>
 
@@ -245,21 +285,30 @@
     <a href="#sec-dump">🧠 Dump</a>
   </nav>
 
-  <!-- =================== NOW / NEXT / LATER =================== -->
+  <!-- =================== PROPOSED DAY =================== -->
+  <section class="card" id="proposal" style="display:none">
+    <div class="card-body">
+      <div class="kicker">Claude's proposed day</div>
+      <p id="propText"></p>
+      <div class="proprow">
+        <button id="propAccept">Accept</button>
+        <button id="propTweak">Tweak</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- =================== NOW / NEXT / LATER / WAITING =================== -->
   <section class="card" id="sec-now" data-sec="now">
     <div class="card-head"><h2><span class="dot">●</span> What matters most</h2>
-      <span class="hint">one thing in NOW — everything else can wait</span><span class="chev">▼</span></div>
+      <span class="hint">one thing in Now, everything else can wait</span><span class="chev">▼</span></div>
     <div class="card-body">
       <div class="lanes">
-        <div class="lane now"><h3>▶ Now — just this</h3><div id="laneNow"></div>
+        <div class="lane now"><h3>▶ Now, just this</h3><div id="laneNow"></div>
           <button class="focus-btn" id="focusBtn">⛶ Enter focus mode</button></div>
-        <div class="lane next"><h3>Next — on deck <span class="cnt" id="nextCnt"></span></h3><div id="laneNext"></div></div>
-        <div class="lane later"><h3>Later — parked, not lost <span class="cnt" id="laterCnt"></span></h3><div id="laneLater"></div></div>
+        <div class="lane next"><h3>Next, on deck <span class="cnt" id="nextCnt"></span></h3><div id="laneNext"></div></div>
+        <div class="lane later"><h3>Later, parked not lost <span class="cnt" id="laterCnt"></span></h3><div id="laneLater"></div></div>
       </div>
-      <div class="addrow">
-        <input id="newTask" placeholder="Add a task… (goes to Later — triage when ready)">
-        <button id="addTask">Add</button>
-      </div>
+      <details class="donewrap" id="waitWrap"><summary id="waitSummary">⏳ Waiting (0)</summary><div id="laneWaiting" style="margin-top:8px"></div></details>
       <details class="donewrap"><summary id="doneSummary">Done today (0)</summary><div id="laneDone"></div></details>
     </div>
   </section>
@@ -267,17 +316,17 @@
   <!-- =================== TODAY TIMELINE =================== -->
   <section class="card" id="sec-day" data-sec="day">
     <div class="card-head"><h2><span class="dot">●</span> Today's shape</h2>
-      <span class="hint">calendar + training, merged</span><span class="chev">▼</span></div>
+      <span class="hint">calendar plus training, merged</span><span class="chev">▼</span></div>
     <div class="card-body"><ul class="tl" id="timeline"></ul></div>
   </section>
 
   <!-- =================== TRAINING =================== -->
   <section class="card" id="sec-train" data-sec="train">
-    <div class="card-head"><h2><span class="dot">●</span> Training — Aspire4Fitness block</h2>
+    <div class="card-head"><h2><span class="dot">●</span> Training</h2>
       <span class="hint">your schedule, ticked off against Strava</span><span class="chev">▼</span></div>
     <div class="card-body">
-      <span class="focus-badge">🎯 Strava focus: Build — “Increase my VO2 max to get faster”</span>
-      <p class="sub" style="margin-bottom:6px">Bootcamp Mon · Wed · Thu + Run Club Tue + Saturday run, through <b style="color:var(--text)">Fri 10 July</b> (then 🏖). No session Thu 18 Jun — graduation travel.</p>
+      <span class="focus-badge">🎯 Strava focus: Build, increase VO2 max</span>
+      <p class="sub" id="blockDesc" style="margin-bottom:6px"></p>
 
       <div class="tiles" id="trainTiles"></div>
 
@@ -287,11 +336,11 @@
       <div class="season">
         <h3 style="font-size:.72rem;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);margin:14px 0 6px">The whole block at a glance</h3>
         <table id="seasonGrid"></table>
-        <p class="chart-note">✓ done · ✗ missed · icons = planned · ⚑ = exception (no session) · — = rest day</p>
+        <p class="chart-note">✓ done · ◦ skipped · ✗ didn't happen · ⚑ off · icons = planned · — rest day</p>
       </div>
 
       <svg id="volChart" width="100%" height="190" viewBox="0 0 660 190" preserveAspectRatio="xMidYMid meet" style="margin-top:16px"></svg>
-      <p class="chart-note">Weekly run km from Strava, last 13 weeks. Orange = current week.</p>
+      <p class="chart-note">Weekly run km from Strava, last 13 weeks. Orange is the current week.</p>
 
       <ul class="insights" id="trainInsights"></ul>
     </div>
@@ -311,34 +360,48 @@
     <div class="card-body">
       <ul class="shoplist" id="shopList"></ul>
       <div class="addrow"><input id="newShop" placeholder="Add item…"><button id="addShop">Add</button></div>
-      <button class="clearbtn" id="clearShop">Clear ticked items</button>
+      <button class="clearbtn" id="clearShop" style="margin-top:10px">Clear ticked items</button>
     </div>
   </section>
 
   <!-- =================== BRAIN DUMP =================== -->
   <section class="card" id="sec-dump" data-sec="dump">
     <div class="card-head"><h2><span class="dot">●</span> Brain dump</h2>
-      <span class="hint">get it out of your head — sort it never</span><span class="chev">▼</span></div>
+      <span class="hint">get it out of your head, sort it never</span><span class="chev">▼</span></div>
     <div class="card-body">
-      <div class="addrow"><input id="newDump" placeholder="Any thought, worry, idea — park it here"><button id="addDump">Park it</button></div>
+      <div class="addrow"><input id="newDump" placeholder="Any thought, worry, idea, park it here"><button id="addDump">Park it</button></div>
       <ul class="shoplist" id="dumpList" style="margin-top:10px"></ul>
     </div>
   </section>
 
-  <footer>Personal HQ · live data pulled 9 Jun 2026 (Gmail · Calendar · Strava) · everything you edit stays in this browser<br>
-  Ask Claude Code to "refresh my briefing" to re-pull live data without losing your edits.</footer>
+  <footer>Personal HQ · the app reads briefing.json, Claude regenerates it on request · your edits live in this browser
+    <div class="datarow">
+      <button class="clearbtn" id="exportBtn">Export data</button>
+      <button class="clearbtn" id="importBtn">Import data</button>
+      <input type="file" id="importFile" accept="application/json" style="display:none">
+    </div>
+  </footer>
 </div>
 
 <!-- =================== FOCUS OVERLAY =================== -->
 <div id="overlay">
-  <div class="small">Focus — nothing else exists</div>
+  <div class="small">Focus, nothing else exists</div>
   <div class="big" id="ovTitle">—</div>
   <div class="note" id="ovNote"></div>
   <div id="timer">25:00</div>
   <div class="row">
     <button id="ovTimer">▶ Start 25 min</button>
-    <button id="ovDone">✓ Done — celebrate</button>
+    <button id="ovDone">✓ Done</button>
     <button id="ovExit">esc · back</button>
+  </div>
+</div>
+
+<!-- =================== QUICK CAPTURE =================== -->
+<button id="fab" title="Quick capture (n)" aria-label="Quick capture">+</button>
+<div id="capOv">
+  <div id="capBox">
+    <input id="capInput" placeholder="Type it, hit enter, it's captured. Goes to Later.">
+    <div class="sub">enter to capture · esc to close</div>
   </div>
 </div>
 
@@ -347,108 +410,32 @@
 <script>
 "use strict";
 /* ====================================================================
-   LIVE DATA — pulled from Gmail / Google Calendar / Strava, 2026-06-09
+   Personal HQ. The app ships with no baked-in data. It fetches
+   briefing.json (regenerated by Claude on request) and layers your
+   local edits on top. Your edits always win and always survive.
    ==================================================================== */
-const LIVE = {
-  inbox: [
-    { ico: "🎓", title: "Tes QTS — conditional offer received", from: "Andrew Locke · Tes · 9 Jun",
-      body: "“Congratulations! I'm delighted to make you a conditional offer to join our Assessment Only programme, subject to the completion of the below compliance requirements.” cc: Zofia & Katarzyna (Akademeia).",
-      chips: [["hot", "Action: work through compliance checklist"]] },
-    { ico: "🧑‍🏫", title: "QTS thread — mentor + numeracy/literacy tests", from: "Zofia Reeves · 9 Jun",
-      body: "Mentor being confirmed. Skills tests likely need sitting in the UK — Zofia sent practice links (Superprof numeracy + more). You're in Poland Fri 19 Jun for graduation; school visit possible that afternoon.",
-      chips: [["act", "Confirm test dates with placement school"], ["act", "Prep: practice numeracy & literacy tests"]] },
-    { ico: "🗳️", title: "Overseas voter registration expiring", from: "Ealing Council · 3 Jun",
-      body: "“Your overseas voter registration is due to expire shortly.” Renewal form attached to the email — or renew online. ~5 minutes.",
-      chips: [["hot", "Action: renew now"]] },
-    { ico: "💼", title: "ZUS contributions — May 2026", from: "Biuro Szabo · 1 Jun",
-      body: "Social security payment for maj 2026 coming up. Standard self-employed deadline is the 20th — that's a Saturday, so Mon 22 Jun.",
-      chips: [["act", "Pay by Mon 22 Jun"]] },
-    { ico: "📦", title: "InPost parcel waiting — Koszyk365.pl", from: "InPost · 9 Jun",
-      body: "Parcel no. …963995 (home goods) is in the paczkomat. Pickup windows usually expire after 48h.",
-      chips: [["act", "Collect by Thu 11 Jun"]] },
-    { ico: "🤝", title: "Mentoring meeting with Edmore — overdue", from: "PushFar · 28 May",
-      body: "“It looks like you are now overdue a mentoring meeting with Edmore. Schedule one in now to stay on track.”",
-      chips: [["act", "Send Edmore two time options"]] },
-    { ico: "🏨", title: "Kołobrzeg holiday confirmed — 11→25 Jul", from: "Radisson · 31 May",
-      body: "Radisson Resort Kołobrzeg, reservation 2LJZZ9GN. Starts the day after your bootcamp block ends. Perfect timing.",
-      chips: [["info", "No action — booked ✓"]] },
-    { ico: "🌹", title: "Labour Party membership application received", from: "Labour · 29 May",
-      body: "Application acknowledged and being processed.",
-      chips: [["info", "No action — wait for confirmation"]] },
-    { ico: "🔐", title: "GitHub device verification", from: "GitHub · 9 Jun",
-      body: "A sign-in attempt asked for device verification (account elysium-max).",
-      chips: [["ok", "If that was you: done. If not: rotate password"]] },
-  ],
-
-  oneoff: [
-    { date: "2026-06-19", time: "19:00", end: "22:00", title: "🎓 Graduation", note: "in Poland — travel day; school visit possible in the afternoon" },
-    { date: "2026-07-11", time: "15:00", end: "16:00", title: "🏖 Kołobrzeg — check-in (until 25 Jul)", note: "Radisson, res. 2LJZZ9GN" },
-  ],
-  sundayGym: { time: "08:00", end: "09:30", title: "💪 Gym", note: "your calendar: “miss it and the week is a write-off”" },
-
-  // Strava run dates (auto-ticks matching scheduled runs) — as of 9 Jun
-  runDates: ["2026-04-25","2026-04-28","2026-05-03","2026-05-13","2026-05-28","2026-05-31","2026-06-05","2026-06-06"],
-
-  // Weekly run km, last 13 weeks (Mon-start)
-  volWeeks: [
-    { label: "16 Mar", km: 5.8 }, { label: "23 Mar", km: 0 }, { label: "30 Mar", km: 0 },
-    { label: "6 Apr", km: 14.1 }, { label: "13 Apr", km: 0 }, { label: "20 Apr", km: 8.0 },
-    { label: "27 Apr", km: 11.6 }, { label: "4 May", km: 0 }, { label: "11 May", km: 2.6 },
-    { label: "18 May", km: 0 }, { label: "25 May", km: 8.0 }, { label: "1 Jun", km: 7.4 },
-    { label: "8 Jun", km: 0, current: true },
-  ],
-  bestRecentPace: "6:24", prPace: "5:45", last30: { km: 18.0, runs: 5 },
-};
-
-/* ====================================================================
-   YOUR TRAINING SCHEDULE — Aspire4Fitness, Keyworth (from their poster)
-   ==================================================================== */
-const SCHED = {
-  firstWeek: "2026-06-08",          // Monday of the current block week
-  until: "2026-07-10",              // last day of the block (holiday starts 11 Jul)
-  exceptions: { "2026-06-18": "graduation travel" },
-  rules: {                          // keyed by JS getDay(): 1=Mon … 6=Sat
-    1: { kind: "bootcamp", ico: "🏋️", title: "Bootcamp — Aspire4Fitness", time: "10:00–11:00 or 18:30–19:30" },
-    2: { kind: "run",      ico: "🏃", title: "Run Club — Aspire4Fitness", time: "18:00–18:45", extra: "optional after: School of Calisthenics 19:30–20:30 (book via their site)" },
-    3: { kind: "bootcamp", ico: "🏋️", title: "Bootcamp — Aspire4Fitness", time: "07:00–07:45 or 18:30–19:30" },
-    4: { kind: "bootcamp", ico: "🏋️", title: "Bootcamp — Aspire4Fitness", time: "10:00–11:00 or 18:30–19:30" },
-    6: { kind: "run",      ico: "🏃", title: "Saturday run — your route", time: "pick your time", extra: "Aspire bootcamp also runs Sat 09:30–10:30 if you fancy a double" },
-  },
-};
-
-/* ====================================================================
-   STATE — yours, persisted in localStorage; seeds only on first visit.
-   Migrates tasks/lists/streak from the previous version automatically.
-   ==================================================================== */
-const KEY = "personal-hq-v3";
-const OLD_KEY = "personal-hq-v2";
+const KEY = "personal-hq-v4";
+const OLD_KEY = "personal-hq-v3";
 const uid = () => Math.random().toString(36).slice(2, 9);
 const todayStr = () => {
   const d = new Date();
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
 };
 
-const CALL_TASK = { ico: "📞", title: "Call Aspire4Fitness — sign up for bootcamp", meta: "Keyworth · Mon/Wed/Thu block starts this week", due: "2026-06-10", lane: "now" };
-
 const SEED = {
-  tasks: [
-    { id: uid(), ...CALL_TASK },
-    { id: uid(), ico: "🎓", title: "Start Tes QTS compliance checklist", meta: "from the offer email", due: "2026-06-12", lane: "next" },
-    { id: uid(), ico: "🗳️", title: "Renew overseas voter registration", meta: "form attached in Ealing email · ~5 min", due: "2026-06-13", lane: "next" },
-    { id: uid(), ico: "📦", title: "Collect InPost parcel (…963995)", meta: "Koszyk365.pl · paczkomat", due: "2026-06-11", lane: "next" },
-    { id: uid(), ico: "💼", title: "Pay ZUS for May", meta: "details in Biuro Szabo email", due: "2026-06-22", lane: "later" },
-    { id: uid(), ico: "🤝", title: "Schedule mentoring with Edmore", meta: "overdue per PushFar · offer two slots", due: "2026-06-12", lane: "later" },
-    { id: uid(), ico: "📝", title: "Practice numeracy test (Zofia's links)", meta: "QTS skills tests · likely sat in UK", due: "2026-06-18", lane: "later" },
-    { id: uid(), ico: "✉️", title: "Confirm skills-test dates with placement school", meta: "from QTS thread", due: "2026-06-15", lane: "later" },
-  ],
-  doneLog: [],
-  shopping: [
-    { id: uid(), txt: "Energy gels — test on a Saturday run", done: false },
-    { id: uid(), txt: "Plasters / blister tape", done: false },
-  ],
+  userTasks: [],            // origin "user": fully local tasks
+  laneOverrides: {},        // srcId -> lane (your triage beats Claude's suggestion)
+  waitingInfo: {},          // taskId -> { who, since }
+  dismissedSrcIds: [],      // briefing tasks you deleted; they stay dead on refresh
+  completedSrcIds: [],      // briefing tasks you completed; ditto
+  doneLog: [],              // { id, ico, title, doneOn }
+  sessionDone: {},          // "YYYY-MM-DD" -> true
+  sessionSkipped: {},       // "YYYY-MM-DD" -> true (no drama)
+  shopping: [],
   dump: [],
-  sessionDone: {},                  // "YYYY-MM-DD" -> true (manually ticked sessions)
   streak: 0, lastDoneDate: null,
+  proposalHandled: null,    // generatedAt of the last proposal accepted/tweaked
+  dedupedV3: false,
   collapsed: { inbox: true, shop: true, dump: true, day: false, train: false, now: false },
 };
 
@@ -458,18 +445,15 @@ let S = (() => {
     if (raw) return JSON.parse(raw);
     const old = localStorage.getItem(OLD_KEY);
     if (old) {
-      // migrate: keep your tasks, lists, streak — drop the old preset plan
       const o = JSON.parse(old);
       const s = JSON.parse(JSON.stringify(SEED));
-      if (Array.isArray(o.tasks)) s.tasks = o.tasks.filter(t => !/Łazienki/.test(t.title || ""));
+      if (Array.isArray(o.tasks)) s.userTasks = o.tasks;
       if (Array.isArray(o.doneLog)) s.doneLog = o.doneLog;
       if (Array.isArray(o.shopping)) s.shopping = o.shopping;
       if (Array.isArray(o.dump)) s.dump = o.dump;
+      if (o.sessionDone) s.sessionDone = o.sessionDone;
       if (o.streak) { s.streak = o.streak; s.lastDoneDate = o.lastDoneDate; }
-      if (!s.tasks.some(t => /aspire/i.test(t.title || ""))) {
-        s.tasks.forEach(t => { if (t.lane === "now") t.lane = "next"; });
-        s.tasks.unshift({ id: uid(), ...CALL_TASK });
-      }
+      if (o.collapsed) Object.assign(s.collapsed, o.collapsed);
       return s;
     }
   } catch (e) {}
@@ -514,26 +498,100 @@ function showSnack(msg) {
 }
 $("snackUndo").onclick = () => {
   if (!lastAction) return;
-  if (lastAction.type === "complete") {
-    S.doneLog = S.doneLog.filter(d => d.id !== lastAction.task.id);
-    S.tasks.unshift(lastAction.task);
-  } else if (lastAction.type === "delete") {
-    S.tasks.unshift(lastAction.task);
+  const a = lastAction; lastAction = null;
+  if (a.type === "complete") {
+    S.doneLog = S.doneLog.filter(d => d.id !== a.task.id);
+    if (a.origin === "briefing") S.completedSrcIds = S.completedSrcIds.filter(x => x !== a.task.id);
+    else S.userTasks.unshift(a.task);
+  } else if (a.type === "delete") {
+    if (a.origin === "briefing") S.dismissedSrcIds = S.dismissedSrcIds.filter(x => x !== a.task.id);
+    else S.userTasks.unshift(a.task);
   }
-  lastAction = null;
   $("snack").classList.remove("on");
   renderTasks();
 };
 
+/* ==================== briefing load ==================== */
+let B = null, SESSIONS = [];
+
+async function boot() {
+  try {
+    const r = await fetch("briefing.json", { cache: "no-store" });
+    if (r.ok) B = await r.json();
+  } catch (e) { /* offline or file://; service worker serves the cached copy when installed */ }
+  if (B && B.training) SESSIONS = buildSchedule(B.training);
+  if (B && !S.dedupedV3 && S.userTasks.length) {
+    // one-off: drop migrated v3 seed tasks that the briefing now owns
+    const titles = new Set((B.tasks || []).map(t => t.title));
+    S.userTasks = S.userTasks.filter(t => !titles.has(t.title));
+    S.dedupedV3 = true;
+  }
+  renderAll();
+}
+
+function mergedTasks() {
+  const fromB = (B && B.tasks ? B.tasks : [])
+    .filter(t => !S.dismissedSrcIds.includes(t.srcId) && !S.completedSrcIds.includes(t.srcId))
+    .map(t => ({
+      id: t.srcId, origin: "briefing", ico: t.ico, title: t.title, meta: t.meta || "",
+      due: t.due || null, lane: S.laneOverrides[t.srcId] || t.suggestedLane || "later",
+    }));
+  return fromB.concat(S.userTasks);
+}
+function setLane(task, lane) {
+  if (task.origin === "briefing") S.laneOverrides[task.id] = lane;
+  else { const u = S.userTasks.find(t => t.id === task.id); if (u) u.lane = lane; }
+}
+
 /* ==================== header ==================== */
-(function header() {
+function renderHeader() {
   const now = new Date();
   const h = now.getHours();
   $("greet").textContent = (h < 12 ? "Good morning" : h < 18 ? "Good afternoon" : "Good evening") + ", Brendan 👋";
-  $("datesub").textContent = now.toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long", year: "numeric" }) +
-    " · live data: Gmail · Calendar · Strava";
-  $("holcount").textContent = Math.max(0, Math.ceil((new Date("2026-07-11T00:00") - now) / 864e5));
-})();
+  const el = $("ageline");
+  el.className = "";
+  if (!B) { el.textContent = "no briefing loaded, tap how to refresh"; el.classList.add("red"); }
+  else {
+    const days = Math.floor((now - new Date(B.generatedAt)) / 864e5);
+    el.textContent = `briefing as of ${new Date(B.generatedAt).toLocaleDateString("en-GB", { day: "numeric", month: "short" })}, ` +
+      (days <= 0 ? "today" : days === 1 ? "1 day old" : `${days} days old`);
+    if (days > 4) el.classList.add("red"); else if (days > 2) el.classList.add("amber");
+  }
+  $("northstar").textContent = B && B.northStar ? "✦ " + B.northStar : "";
+}
+$("refreshHow").onclick = () => {
+  const t = $("refreshTip");
+  t.style.display = t.style.display === "block" ? "none" : "block";
+};
+
+/* ==================== proposed day ==================== */
+function renderProposal() {
+  const el = $("proposal");
+  el.style.display = "none";
+  if (!B || !B.proposedDay || S.proposalHandled === B.generatedAt) return;
+  if ((Date.now() - new Date(B.generatedAt)) / 864e5 > 1.5) return;   // stale, hide rather than guess
+  const all = mergedTasks();
+  const find = id => all.find(t => t.id === id);
+  const now = find(B.proposedDay.nowSrcId);
+  if (!now) return;
+  const nexts = (B.proposedDay.nextSrcIds || []).map(find).filter(Boolean).slice(0, 3);
+  $("propText").innerHTML = `Your day: start with <b>${now.ico} ${esc(now.title)}</b>` +
+    (nexts.length ? `, then ${nexts.map(t => esc(t.title)).join(" · ")}` : "") + ".";
+  el.style.display = "block";
+  $("propAccept").onclick = () => {
+    mergedTasks().forEach(t => { if (t.lane === "now") setLane(t, "next"); });
+    setLane(now, "now");
+    nexts.forEach(t => setLane(t, "next"));
+    S.proposalHandled = B.generatedAt;
+    save(); renderProposal(); renderTasks();
+    showSnack("Day set. One thing at a time.");
+  };
+  $("propTweak").onclick = () => {
+    S.proposalHandled = B.generatedAt;
+    save(); renderProposal();
+    document.getElementById("sec-now").scrollIntoView();
+  };
+}
 
 /* ==================== tasks ==================== */
 function fmtDue(due) {
@@ -545,11 +603,14 @@ function fmtDue(due) {
 }
 function taskHTML(t, lane) {
   const moves = {
-    now:   [["→ next", "next"], ["park ↓", "later"]],
-    next:  [["▶ do now", "now"], ["park ↓", "later"]],
-    later: [["▶ do now", "now"], ["↑ next", "next"]],
+    now:     [["→ next", "next"], ["park ↓", "later"], ["⏳ waiting", "waiting"]],
+    next:    [["▶ do now", "now"], ["park ↓", "later"], ["⏳ waiting", "waiting"]],
+    later:   [["▶ do now", "now"], ["↑ next", "next"], ["⏳ waiting", "waiting"]],
+    waiting: [["▶ do now", "now"], ["↑ next", "next"], ["park ↓", "later"]],
   }[lane].map(([lbl, to]) => `<button data-move="${to}" data-id="${t.id}">${lbl}</button>`).join("");
-  const meta = [t.meta ? esc(t.meta) : "", fmtDue(t.due)].filter(Boolean).join(" · ");
+  const w = S.waitingInfo[t.id];
+  const waitMeta = lane === "waiting" && w ? `waiting on ${esc(w.who)} since ${niceDay(w.since)}` : "";
+  const meta = [waitMeta, t.meta ? esc(t.meta) : "", fmtDue(t.due)].filter(Boolean).join(" · ");
   return `<div class="task">
     <button class="tickbtn" data-done="${t.id}" title="mark done" aria-label="mark done">✓</button>
     <span class="srcicon">${t.ico || "•"}</span>
@@ -559,35 +620,41 @@ function taskHTML(t, lane) {
   </div>`;
 }
 function renderTasks() {
-  for (const lane of ["now", "next", "later"]) {
+  const all = mergedTasks();
+  for (const lane of ["now", "next", "later", "waiting"]) {
     const el = $("lane" + lane[0].toUpperCase() + lane.slice(1));
-    const items = S.tasks.filter(t => t.lane === lane);
+    const items = all.filter(t => t.lane === lane);
     el.innerHTML = items.length ? items.map(t => taskHTML(t, lane)).join("") :
-      `<div class="empty">${lane === "now" ? "Nothing here. Pull ONE thing from Next." :
-        lane === "next" ? "Empty — promote from Later when ready." : "All clear 🎉"}</div>`;
+      `<div class="empty">${lane === "now" ? "Nothing here. Pull one thing from Next." :
+        lane === "next" ? "Empty. Promote from Later when ready." :
+        lane === "waiting" ? "Not waiting on anyone." : "All clear 🎉"}</div>`;
   }
-  $("nextCnt").textContent = `${S.tasks.filter(t => t.lane === "next").length}/3`;
-  $("laterCnt").textContent = S.tasks.filter(t => t.lane === "later").length || "";
+  $("nextCnt").textContent = `${all.filter(t => t.lane === "next").length}/3`;
+  $("laterCnt").textContent = all.filter(t => t.lane === "later").length || "";
+  $("waitSummary").textContent = `⏳ Waiting (${all.filter(t => t.lane === "waiting").length})`;
   const doneToday = S.doneLog.filter(d => d.doneOn === todayStr());
   $("doneSummary").textContent = `Done today (${doneToday.length})`;
   $("laneDone").innerHTML = doneToday.map(d => `<div class="done-item">${d.ico || "✓"} ${esc(d.title)}</div>`).join("");
-  $("dayprog").textContent = `${doneToday.length}/${doneToday.length + S.tasks.filter(t => t.lane !== "later").length}`;
+  $("dayprog").textContent = `${doneToday.length}/${doneToday.length + all.filter(t => t.lane === "now" || t.lane === "next").length}`;
   $("streak").textContent = S.streak;
-  $("focusBtn").disabled = !S.tasks.some(t => t.lane === "now");
+  $("focusBtn").disabled = !all.some(t => t.lane === "now");
   save();
 }
 function completeTask(id) {
-  const i = S.tasks.findIndex(t => t.id === id);
-  if (i < 0) return;
-  const [t] = S.tasks.splice(i, 1);
+  const all = mergedTasks();
+  const t = all.find(t => t.id === id);
+  if (!t) return;
+  if (t.origin === "briefing") S.completedSrcIds.push(t.id);
+  else S.userTasks = S.userTasks.filter(x => x.id !== id);
   S.doneLog.push({ id: t.id, ico: t.ico, title: t.title, doneOn: todayStr() });
   const today = todayStr();
   if (S.lastDoneDate !== today) {
-    const yest = addDays(today, -1);
-    S.streak = (S.lastDoneDate === yest) ? S.streak + 1 : 1;
+    // forgiving streak: one quiet day in between does not reset it
+    const gap = S.lastDoneDate ? Math.round((new Date(today) - new Date(S.lastDoneDate)) / 864e5) : Infinity;
+    S.streak = gap <= 2 ? S.streak + 1 : 1;
     S.lastDoneDate = today;
   }
-  lastAction = { type: "complete", task: t };
+  lastAction = { type: "complete", task: t, origin: t.origin };
   showSnack(`✓ ${t.title}`);
   confetti();
   renderTasks();
@@ -597,35 +664,64 @@ document.addEventListener("click", e => {
   if (!b) return;
   if (b.dataset.done) completeTask(b.dataset.done);
   if (b.dataset.del) {
-    const t = S.tasks.find(t => t.id === b.dataset.del);
-    S.tasks = S.tasks.filter(x => x.id !== b.dataset.del);
-    if (t) { lastAction = { type: "delete", task: t }; showSnack(`Deleted: ${t.title}`); }
+    const t = mergedTasks().find(t => t.id === b.dataset.del);
+    if (!t) return;
+    if (t.origin === "briefing") S.dismissedSrcIds.push(t.id);
+    else S.userTasks = S.userTasks.filter(x => x.id !== t.id);
+    lastAction = { type: "delete", task: t, origin: t.origin };
+    showSnack(`Deleted: ${t.title}`);
     renderTasks();
   }
   if (b.dataset.move) {
-    const t = S.tasks.find(t => t.id === b.dataset.id);
+    const t = mergedTasks().find(t => t.id === b.dataset.id);
     if (!t) return;
-    if (b.dataset.move === "now") S.tasks.forEach(o => { if (o.lane === "now") o.lane = "next"; });
-    if (b.dataset.move === "next" && S.tasks.filter(o => o.lane === "next").length >= 3) {
-      const oldest = S.tasks.find(o => o.lane === "next"); if (oldest) oldest.lane = "later";
+    const to = b.dataset.move;
+    if (to === "now") mergedTasks().forEach(o => { if (o.lane === "now") setLane(o, "next"); });
+    if (to === "next" && mergedTasks().filter(o => o.lane === "next").length >= 3) {
+      const oldest = mergedTasks().find(o => o.lane === "next"); if (oldest) setLane(oldest, "later");
     }
-    t.lane = b.dataset.move;
+    if (to === "waiting") {
+      const who = (prompt("Waiting on who?") || "").trim() || "them";
+      S.waitingInfo[t.id] = { who, since: todayStr() };
+      $("waitWrap").open = true;
+    }
+    setLane(t, to);
     renderTasks();
   }
 });
-$("addTask").onclick = () => {
-  const v = $("newTask").value.trim();
-  if (!v) return;
-  S.tasks.push({ id: uid(), ico: "✦", title: v, meta: "", due: null, lane: "later" });
-  $("newTask").value = ""; renderTasks();
-};
-$("newTask").addEventListener("keydown", e => { if (e.key === "Enter") $("addTask").click(); });
+
+/* ==================== quick capture ==================== */
+function captureOpen() {
+  $("capOv").classList.add("on");
+  $("capInput").value = "";
+  setTimeout(() => $("capInput").focus(), 30);
+}
+function captureClose() { $("capOv").classList.remove("on"); }
+function captureSave() {
+  const v = $("capInput").value.trim();
+  if (!v) { captureClose(); return; }
+  S.userTasks.push({ id: uid(), origin: "user", ico: "✦", title: v, meta: "captured", due: null, lane: "later" });
+  captureClose();
+  showSnack("Captured to Later. It's safe, carry on.");
+  renderTasks();
+}
+$("fab").onclick = captureOpen;
+$("capInput").addEventListener("keydown", e => {
+  if (e.key === "Enter") captureSave();
+  if (e.key === "Escape") captureClose();
+});
+$("capOv").addEventListener("click", e => { if (e.target === $("capOv")) captureClose(); });
+document.addEventListener("keydown", e => {
+  if (e.key === "n" && !/INPUT|TEXTAREA/.test(document.activeElement.tagName) && !$("capOv").classList.contains("on")) {
+    e.preventDefault(); captureOpen();
+  }
+});
 
 /* ==================== focus overlay ==================== */
 let tmr = null, tLeft = 25 * 60;
 const fmtT = s => `${String(Math.floor(s / 60)).padStart(2, "0")}:${String(s % 60).padStart(2, "0")}`;
 $("focusBtn").onclick = () => {
-  const t = S.tasks.find(t => t.lane === "now");
+  const t = mergedTasks().find(t => t.lane === "now");
   if (!t) return;
   $("ovTitle").textContent = t.title;
   $("ovNote").textContent = t.meta || "";
@@ -647,117 +743,137 @@ $("ovExit").onclick = exitOverlay;
 $("ovDone").onclick = () => { completeTask($("overlay").dataset.task); exitOverlay(); };
 document.addEventListener("keydown", e => { if (e.key === "Escape") exitOverlay(); });
 
-/* ==================== schedule engine ==================== */
-function buildSchedule() {
+/* ==================== schedule engine (reads briefing.json) ==================== */
+function buildSchedule(training) {
   const out = [];
-  let d = SCHED.firstWeek;
-  while (d <= SCHED.until) {
+  const block = training.block;
+  let d = block.firstWeek;
+  while (d <= block.until) {
     const dow = new Date(d + "T12:00").getDay();
-    const rule = SCHED.rules[dow];
-    if (rule) out.push({ date: d, dow, exc: SCHED.exceptions[d] || null, ...rule });
+    const rule = training.rules[String(dow)];
+    if (rule) out.push({ date: d, dow, exc: (block.exceptions || {})[d] || null, ...rule });
     d = addDays(d, 1);
   }
   return out;
 }
-const SESSIONS = buildSchedule();
 function sessionState(s) {
   const today = todayStr();
   if (s.exc) return "exc";
   if (S.sessionDone[s.date]) return "done";
-  if (s.kind === "run" && LIVE.runDates.includes(s.date)) return "strava";
+  if (S.sessionSkipped[s.date]) return "skipped";
+  if (s.kind === "run" && B.training.stravaRunDates.includes(s.date)) return "strava";
   if (s.date < today) return "missed";
   if (s.date === today) return "today";
   return "future";
 }
 
 function renderTraining() {
+  if (!B || !B.training) {
+    $("weekSessions").innerHTML = '<p class="empty">No briefing loaded, so no schedule. Tap "how to refresh" up top.</p>';
+    $("blockDesc").textContent = ""; $("trainTiles").innerHTML = ""; $("seasonGrid").innerHTML = "";
+    $("trainInsights").innerHTML = ""; return;
+  }
+  const block = B.training.block;
+  $("blockDesc").innerHTML = `Bootcamp Mon · Wed · Thu, Run Club Tue, Saturday run, through <b style="color:var(--text)">${niceDay(block.until)}</b>.` +
+    Object.entries(block.exceptions || {}).map(([d, why]) => ` No session ${niceDay(d)} (${esc(why)}).`).join("");
+
   const today = todayStr();
-  // current week (Mon–Sun) containing today, clamped to block
   const t = new Date(today + "T12:00");
   const monday = dstr(new Date(t.getTime() - ((t.getDay() + 6) % 7) * 864e5));
   const weekSessions = SESSIONS.filter(s => s.date >= monday && s.date <= addDays(monday, 6));
-  $("weekTitle").textContent = `This week · ${niceDay(monday)} → ${niceDay(addDays(monday, 6))}`;
+  $("weekTitle").textContent = `This week · ${niceDay(monday)} to ${niceDay(addDays(monday, 6))}`;
 
   $("weekSessions").innerHTML = weekSessions.length ? weekSessions.map(s => {
     const st = sessionState(s);
     const ticked = st === "done" || st === "strava";
     const badge = st === "strava" ? '<span class="badge strava">✓ from Strava</span>' :
-                  st === "missed" ? '<span class="badge missed">missed</span>' :
+                  st === "skipped" ? '<span class="badge quiet">skipped, no drama</span>' :
+                  st === "missed" ? '<span class="badge quiet">didn\'t happen</span>' :
                   st === "today"  ? '<span class="badge todayb">today</span>' :
-                  s.exc ? `<span class="badge missed">off — ${esc(s.exc)}</span>` : "";
-    return `<div class="schedrow ${st === "today" ? "today-row" : ""} ${ticked ? "done-row" : ""}">
+                  s.exc ? `<span class="badge quiet">off, ${esc(s.exc)}</span>` : "";
+    return `<div class="schedrow ${st === "today" ? "today-row" : ""} ${ticked ? "done-row" : ""} ${st === "skipped" ? "skip-row" : ""}">
       <span class="day">${niceDay(s.date)}</span>
       <button class="tickbtn ${ticked ? "on" : ""}" data-sess="${s.date}" ${s.exc ? "disabled" : ""}
         title="${st === "strava" ? "matched from Strava" : "tick when done"}">✓</button>
       <div class="body"><span class="title">${s.ico} ${esc(s.title)}</span>${badge}
         <div class="sub2">${esc(s.time)}${s.extra ? " · " + esc(s.extra) : ""}</div></div>
+      ${s.exc ? "" : `<button class="skipbtn" data-skip="${s.date}">${st === "skipped" ? "unskip" : "skip"}</button>`}
     </div>`;
-  }).join("") : '<p class="empty">Block finished — enjoy Kołobrzeg 🏖</p>';
+  }).join("") : '<p class="empty">Block finished. Enjoy Kołobrzeg 🏖</p>';
 
   // season grid
   const dows = [1, 2, 3, 4, 5, 6, 0], names = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
   let rows = `<tr><th class="wklbl"></th>${names.map(n => `<th>${n}</th>`).join("")}</tr>`;
-  let wk = SCHED.firstWeek;
-  while (wk <= SCHED.until) {
+  let wk = block.firstWeek;
+  while (wk <= block.until) {
     rows += `<tr><td class="wklbl">${niceDay(wk).slice(4)}</td>` + dows.map((dw, ix) => {
       const date = addDays(wk, ix);
       const s = SESSIONS.find(x => x.date === date);
       const isToday = date === today ? "s-today" : "";
       if (!s) return `<td class="s-off ${isToday}">—</td>`;
       const st = sessionState(s);
-      const sym = st === "exc" ? "⚑" : st === "done" || st === "strava" ? "✓" : st === "missed" ? "✗" : s.ico;
-      const cls = st === "exc" ? "s-exc" : st === "done" || st === "strava" ? "s-done" : st === "missed" ? "s-miss" : "s-fut";
+      const sym = st === "exc" ? "⚑" : st === "done" || st === "strava" ? "✓" : st === "skipped" ? "◦" : st === "missed" ? "✗" : s.ico;
+      const cls = st === "exc" ? "s-exc" : st === "done" || st === "strava" ? "s-done" : st === "skipped" ? "s-skip" : st === "missed" ? "s-miss" : "s-fut";
       return `<td class="${cls} ${isToday}" title="${niceDay(date)} · ${esc(s.title)}">${sym}</td>`;
     }).join("") + "</tr>";
     wk = addDays(wk, 7);
   }
   $("seasonGrid").innerHTML = rows;
 
-  // tiles
-  const weekDone = weekSessions.filter(s => ["done", "strava"].includes(sessionState(s))).length;
-  const weekPlanned = weekSessions.filter(s => !s.exc).length;
-  const allDone = SESSIONS.filter(s => ["done", "strava"].includes(sessionState(s))).length;
-  const allPlanned = SESSIONS.filter(s => !s.exc).length;
-  const daysLeft = Math.max(0, Math.ceil((new Date(SCHED.until + "T23:59") - new Date()) / 864e5));
+  // tiles: skipped sessions leave the denominator, they are not failures
+  const counts = list => {
+    const planned = list.filter(s => !s.exc && sessionState(s) !== "skipped").length;
+    const done = list.filter(s => ["done", "strava"].includes(sessionState(s))).length;
+    return [done, planned];
+  };
+  const [wkDone, wkPlanned] = counts(weekSessions);
+  const [allDone, allPlanned] = counts(SESSIONS);
+  const daysLeft = Math.max(0, Math.ceil((new Date(block.until + "T23:59") - new Date()) / 864e5));
+  const st = B.training.stats || {};
   $("trainTiles").innerHTML = [
-    [`${weekDone}/${weekPlanned}`, "sessions this week"],
+    [`${wkDone}/${wkPlanned}`, "sessions this week"],
     [`${allDone}/${allPlanned}`, "block total"],
     [`${daysLeft}d`, "left in block"],
-    [`${LIVE.last30.km} km`, "run · last 30 days"],
-    [LIVE.bestRecentPace, "best recent pace /km"],
-    [LIVE.prPace, "5k PR pace /km"],
+    [st.last30 ? `${st.last30.km} km` : "–", "run, last 30 days"],
+    [st.bestRecentPace || "–", "best recent pace /km"],
+    [st.prPace || "–", "5k PR pace /km"],
   ].map(([n, l]) => `<div class="tile"><div class="num">${n}</div><div class="lbl">${l}</div></div>`).join("");
 
-  // insights
   $("trainInsights").innerHTML = [
-    `<li><strong>First job: the phone call.</strong> Aspire4Fitness, Keyworth — sign up, and pick your Mon/Thu slot (10:00 vs 18:30) and Wed slot (07:00 vs 18:30) while you're on.</li>`,
-    `<li><strong>5 sessions/week is a real jump</strong> from your recent ~2. Strong move — just protect the easy pace on runs so bootcamp legs recover.</li>`,
-    `<li><strong>Thu 18 Jun is off</strong> (graduation travel) and that whole week is disrupted — Tue Run Club + Sat run in Poland keeps it a 3-session week. That's a win, not a fail.</li>`,
-    `<li><strong>VO2 max focus:</strong> Run Club Tuesdays is your quality session; Saturday stays easy/long. The optional School of Calisthenics (Tue 19:30) stacks nicely if you've got the juice.</li>`,
-    `<li><strong>The finish line is real:</strong> last session Thu 9 Jul, holiday starts Sat 11 Jul. A clean 4½-week block, then two weeks on the Baltic with it banked.</li>`,
+    `<li><strong>Run Club Tuesday is the quality session</strong>, Saturday stays easy. That split serves the VO2 max goal on its own.</li>`,
+    `<li><strong>Five sessions a week is a jump</strong> from the recent two. Skipping one to absorb the load is good training, not a lapse.</li>`,
+    `<li><strong>The block has a real finish line:</strong> last session ${niceDay(addDays(block.until, -1))}, then Kołobrzeg. Bank it and enjoy the beach.</li>`,
   ].join("");
   save();
 }
 document.addEventListener("click", e => {
-  const b = e.target.closest("button[data-sess]");
-  if (!b) return;
-  const d = b.dataset.sess;
-  if (S.sessionDone[d]) delete S.sessionDone[d]; else { S.sessionDone[d] = true; confetti(); }
-  renderTraining();
+  const tick = e.target.closest("button[data-sess]");
+  if (tick) {
+    const d = tick.dataset.sess;
+    if (S.sessionDone[d]) delete S.sessionDone[d];
+    else { S.sessionDone[d] = true; delete S.sessionSkipped[d]; confetti(); }
+    renderTraining(); return;
+  }
+  const skip = e.target.closest("button[data-skip]");
+  if (skip) {
+    const d = skip.dataset.skip;
+    if (S.sessionSkipped[d]) delete S.sessionSkipped[d];
+    else { S.sessionSkipped[d] = true; delete S.sessionDone[d]; }
+    renderTraining();
+  }
 });
 
 /* ==================== today timeline ==================== */
-(function timeline() {
+function renderTimeline() {
   const now = new Date();
-  const ds = todayStr(), dow = now.getDay(), cur = now.toTimeString().slice(0, 5);
+  const ds = todayStr(), cur = now.toTimeString().slice(0, 5);
   const evts = [];
-  const sess = SESSIONS.find(s => s.date === ds && !s.exc);
+  const sess = SESSIONS.find(s => s.date === ds && !s.exc && !S.sessionSkipped[s.date]);
   if (sess) {
     const t0 = (sess.time.match(/^\d\d:\d\d/) || ["09:00"])[0];
     evts.push({ time: t0, end: "23:59", title: `${sess.ico} ${sess.title}`, note: sess.time + (sess.extra ? " · " + sess.extra : "") });
   }
-  if (dow === 0) evts.push({ time: LIVE.sundayGym.time, end: LIVE.sundayGym.end, title: LIVE.sundayGym.title, note: LIVE.sundayGym.note });
-  LIVE.oneoff.forEach(o => { if (o.date === ds) evts.push(o); });
+  (B && B.calendar ? B.calendar : []).forEach(o => { if (o.date === ds) evts.push(o); });
   evts.sort((a, b) => a.time.localeCompare(b.time));
   let nextMarked = false;
   $("timeline").innerHTML = evts.length ? evts.map(e => {
@@ -768,39 +884,41 @@ document.addEventListener("click", e => {
     else if (!past && !nextMarked) { mark = ' <span class="nextmark">next ▸</span>'; nextMarked = true; }
     return `<li class="${past ? "past" : ""}"><span class="t">${e.time}</span>
       <span><strong>${esc(e.title)}</strong>${mark}<br><small style="color:var(--muted)">${esc(e.note || "")}</small></span></li>`;
-  }).join("") : `<li><span class="t">—</span><span>Rest day — nothing scheduled.
-    <small style="color:var(--muted)">This week: 🏋️ Mon/Wed/Thu · 🏃 Tue 18:00 &amp; Sat · 💪 Sun 08:00</small></span></li>`;
-})();
+  }).join("") : `<li><span class="t">—</span><span>Rest day, nothing scheduled.</span></li>`;
+}
 
 /* ==================== inbox ==================== */
-(function inbox() {
+function renderInbox() {
+  const items = B && B.inbox ? B.inbox : [];
   const order = { hot: 0, act: 1, ok: 2, info: 3 };
-  const rank = m => Math.min(...m.chips.map(c => order[c[0]]));
-  const items = [...LIVE.inbox].sort((a, b) => rank(a) - rank(b));
-  const actions = items.filter(m => rank(m) <= 1).length;
-  $("inboxHint").textContent = `${actions} need action · ${items.length - actions} FYI`;
-  const dotCol = { 0: "var(--bad)", 1: "var(--warn)", 2: "var(--good)", 3: "var(--blue)" };
-  $("inboxList").innerHTML = items.map(m => `<details class="mailitem" ${rank(m) === 0 ? "open" : ""}>
-    <summary><span class="urgdot" style="background:${dotCol[rank(m)]}"></span>
-      <span class="ico">${m.ico}</span><strong>${esc(m.title)}</strong><span class="from">${esc(m.from)}</span></summary>
-    <div class="inner"><p>${esc(m.body)}</p>
-      ${m.chips.map(([cls, txt]) => `<span class="chip ${cls}">${esc(txt)}</span>`).join("")}</div>
-  </details>`).join("");
-})();
+  const sorted = [...items].sort((a, b) => (order[a.urgency] ?? 3) - (order[b.urgency] ?? 3));
+  const actions = sorted.filter(m => (order[m.urgency] ?? 3) <= 1).length;
+  $("inboxHint").textContent = items.length ? `${actions} need action · ${items.length - actions} FYI` : "no briefing loaded";
+  const dotCol = { hot: "var(--bad)", act: "var(--warn)", ok: "var(--good)", info: "var(--blue)" };
+  $("inboxList").innerHTML = sorted.map(m => `<details class="mailitem" ${m.urgency === "hot" ? "open" : ""}>
+    <summary><span class="urgdot" style="background:${dotCol[m.urgency] || "var(--blue)"}"></span>
+      <span class="ico">${m.ico || "✉️"}</span><strong>${esc(m.title)}</strong><span class="from">${esc(m.from || "")}</span></summary>
+    <div class="inner"><p>${esc(m.body || "")}</p>
+      ${m.action ? `<span class="chip ${m.urgency}">${esc(m.action)}</span>` : ""}</div>
+  </details>`).join("") || '<p class="empty">Nothing here until a briefing is loaded.</p>';
+}
 
 /* ==================== volume chart ==================== */
-(function volChart() {
+function renderVolChart() {
   const svg = $("volChart");
+  svg.innerHTML = "";
+  const weeks = B && B.training && B.training.volWeeks ? B.training.volWeeks : [];
+  if (!weeks.length) return;
   const W = 660, H = 190, padL = 32, padB = 24, padT = 12;
-  const maxKm = Math.max(...LIVE.volWeeks.map(w => w.km)) * 1.15;
-  const bw = (W - padL - 8) / LIVE.volWeeks.length;
+  const maxKm = Math.max(...weeks.map(w => w.km), 1) * 1.15;
+  const bw = (W - padL - 8) / weeks.length;
   [5, 10, 15].forEach(g => {
     if (g > maxKm) return;
     const y = H - padB - g / maxKm * (H - padB - padT);
     svgEl("line", { x1: padL, x2: W - 4, y1: y, y2: y, stroke: "#232c3f", "stroke-dasharray": "3 4" }, svg);
     svgEl("text", { x: padL - 5, y: y + 4, fill: "#8b96ab", "font-size": 10, "text-anchor": "end" }, svg).textContent = g;
   });
-  LIVE.volWeeks.forEach((w, i) => {
+  weeks.forEach((w, i) => {
     const h = Math.max(w.km / maxKm * (H - padB - padT), w.km > 0 ? 3 : 1.5);
     const x = padL + i * bw + 3, y = H - padB - h;
     const bar = svgEl("rect", { x, y, width: bw - 6, height: h, rx: 4,
@@ -812,7 +930,7 @@ document.addEventListener("click", e => {
     if (w.km > 0)
       svgEl("text", { x: x + (bw - 6) / 2, y: y - 5, fill: "#cdd6e4", "font-size": 10, "text-anchor": "middle" }, svg).textContent = w.km.toFixed(1);
   });
-})();
+}
 
 /* ==================== shopping & brain dump ==================== */
 function renderList(elId, arr, hintId) {
@@ -820,7 +938,7 @@ function renderList(elId, arr, hintId) {
     <button class="tickbtn" data-list="${elId}" data-toggle="${it.id}" aria-label="toggle">✓</button>
     <span>${esc(it.txt)}</span>
     <button class="del" data-list="${elId}" data-rm="${it.id}" aria-label="remove">✕</button></li>`).join("") ||
-    `<li><span class="empty">Empty — lovely.</span></li>`;
+    `<li><span class="empty">Empty, lovely.</span></li>`;
   if (hintId) $(hintId).textContent = `${arr.filter(i => !i.done).length} open`;
   save();
 }
@@ -837,8 +955,36 @@ $("clearShop").onclick = () => { S.shopping = S.shopping.filter(i => !i.done); r
 $("addDump").onclick = () => { const v = $("newDump").value.trim(); if (v) { S.dump.push({ id: uid(), txt: v, done: false }); $("newDump").value = ""; renderList("dumpList", S.dump); } };
 $("newDump").addEventListener("keydown", e => { if (e.key === "Enter") $("addDump").click(); });
 
+/* ==================== export / import ==================== */
+$("exportBtn").onclick = () => {
+  const blob = new Blob([JSON.stringify({ app: "personal-hq", version: 4, exportedAt: new Date().toISOString(), state: S }, null, 2)],
+    { type: "application/json" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = `personal-hq-backup-${todayStr()}.json`;
+  a.click();
+  URL.revokeObjectURL(a.href);
+};
+$("importBtn").onclick = () => $("importFile").click();
+$("importFile").addEventListener("change", e => {
+  const f = e.target.files[0]; if (!f) return;
+  const rd = new FileReader();
+  rd.onload = () => {
+    try {
+      const obj = JSON.parse(rd.result);
+      if (obj.app !== "personal-hq" || !obj.state) throw new Error("not a Personal HQ backup");
+      if (!confirm("Replace everything on this device with the backup?")) return;
+      S = obj.state; save();
+      renderAll();
+      showSnack("Backup restored.");
+    } catch (err) { alert("Import failed: " + err.message); }
+    e.target.value = "";
+  };
+  rd.readAsText(f);
+});
+
 /* ==================== collapsible branches ==================== */
-document.querySelectorAll(".card").forEach(card => {
+document.querySelectorAll(".card[data-sec]").forEach(card => {
   const key = card.dataset.sec;
   if (S.collapsed[key]) card.classList.add("closed");
   card.querySelector(".card-head").addEventListener("click", () => {
@@ -849,10 +995,19 @@ document.querySelectorAll(".card").forEach(card => {
 });
 
 /* ==================== go ==================== */
-renderTasks();
-renderTraining();
-renderList("shopList", S.shopping, "shopHint");
-renderList("dumpList", S.dump);
+function renderAll() {
+  renderHeader();
+  renderProposal();
+  renderTasks();
+  renderTimeline();
+  renderTraining();
+  renderInbox();
+  renderVolChart();
+  renderList("shopList", S.shopping, "shopHint");
+  renderList("dumpList", S.dump);
+}
+boot();
+if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
 </script>
 </body>
 </html>
