@@ -27,76 +27,82 @@
     color: var(--text);
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     line-height: 1.5;
-    padding: 24px 16px 80px;
+    padding: 20px 14px 90px;
   }
   .wrap { max-width: 1080px; margin: 0 auto; }
-  button { font: inherit; cursor: pointer; border: none; border-radius: 10px; }
+  button { font: inherit; cursor: pointer; border: none; border-radius: 10px; color: inherit; background: none; }
+  button:focus-visible, input:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  button:active { transform: scale(.97); }
   input { font: inherit; }
 
   /* ---------- header ---------- */
   .kicker { color: var(--accent); font-weight: 700; letter-spacing: .14em; text-transform: uppercase; font-size: .72rem; }
-  h1 { font-size: clamp(1.5rem, 4vw, 2.2rem); font-weight: 800; letter-spacing: -.02em; }
-  .sub { color: var(--muted); font-size: .9rem; }
-  .topbar { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; justify-content: space-between; margin-bottom: 18px; }
-  .statpills { display: flex; gap: 10px; align-items: center; }
+  h1 { font-size: clamp(1.5rem, 4vw, 2.1rem); font-weight: 800; letter-spacing: -.02em; }
+  .sub { color: var(--muted); font-size: .88rem; }
+  .topbar { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; justify-content: space-between; margin-bottom: 14px; }
+  .statpills { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
   .pill { background: var(--panel); border: 1px solid var(--line); border-radius: 999px; padding: 6px 14px; font-size: .82rem; color: var(--muted); white-space: nowrap; }
   .pill b { color: var(--text); }
 
-  /* ---------- nav chips ---------- */
-  nav { position: sticky; top: 0; z-index: 50; background: rgba(12,15,20,.85); backdrop-filter: blur(8px);
-        display: flex; gap: 8px; padding: 10px 0; margin-bottom: 14px; overflow-x: auto; }
-  nav a { color: var(--muted); text-decoration: none; font-size: .82rem; font-weight: 600;
-          border: 1px solid var(--line); border-radius: 999px; padding: 6px 14px; white-space: nowrap; }
-  nav a:hover { color: var(--text); border-color: var(--accent); }
+  /* ---------- nav ---------- */
+  nav { position: sticky; top: 0; z-index: 50; background: rgba(12,15,20,.88); backdrop-filter: blur(8px);
+        display: flex; gap: 8px; padding: 10px 0; margin-bottom: 14px; overflow-x: auto; scrollbar-width: none; }
+  nav::-webkit-scrollbar { display: none; }
+  nav a { color: var(--muted); text-decoration: none; font-size: .84rem; font-weight: 600;
+          border: 1px solid var(--line); border-radius: 999px; padding: 7px 15px; white-space: nowrap; transition: all .15s; }
+  nav a:hover { color: var(--text); border-color: var(--accent); background: rgba(252,82,0,.08); }
 
-  /* ---------- cards & branches ---------- */
-  .card { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); margin-bottom: 18px; overflow: hidden; }
-  .card-head { display: flex; align-items: center; gap: 10px; padding: 16px 20px; cursor: pointer; user-select: none; }
+  /* ---------- cards ---------- */
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); margin-bottom: 16px; overflow: hidden; }
+  .card-head { display: flex; align-items: center; gap: 10px; padding: 15px 18px; cursor: pointer; user-select: none; }
+  .card-head:hover { background: rgba(255,255,255,.02); }
   .card-head h2 { font-size: .8rem; text-transform: uppercase; letter-spacing: .12em; color: var(--muted); flex: 1; }
   .card-head .dot { color: var(--accent); }
-  .card-head .hint { font-size: .75rem; color: var(--muted); font-weight: 400; text-transform: none; letter-spacing: 0; }
+  .card-head .hint { font-size: .74rem; color: var(--muted); font-weight: 400; text-transform: none; letter-spacing: 0; text-align: right; }
   .card-head .chev { color: var(--muted); transition: transform .25s; font-size: .8rem; }
   .card.closed .chev { transform: rotate(-90deg); }
-  .card-body { padding: 4px 20px 20px; }
+  .card-body { padding: 4px 18px 18px; }
   .card.closed .card-body { display: none; }
 
   /* ---------- now / next / later ---------- */
-  .lanes { display: grid; gap: 14px; grid-template-columns: 1fr; }
-  @media (min-width: 820px) { .lanes { grid-template-columns: 1.3fr 1fr 1fr; } }
-  .lane { background: var(--panel-2); border: 1px solid var(--line); border-radius: 12px; padding: 14px; min-height: 120px; }
-  .lane h3 { font-size: .72rem; text-transform: uppercase; letter-spacing: .12em; margin-bottom: 10px; }
+  .lanes { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 840px) { .lanes { grid-template-columns: 1.35fr 1fr 1fr; } }
+  .lane { background: var(--panel-2); border: 1px solid var(--line); border-radius: 12px; padding: 13px; min-height: 110px; }
+  .lane h3 { font-size: .72rem; text-transform: uppercase; letter-spacing: .12em; margin-bottom: 10px; display: flex; justify-content: space-between; }
+  .lane h3 .cnt { color: var(--muted); font-weight: 600; }
   .lane.now h3 { color: var(--accent); } .lane.next h3 { color: var(--warn); } .lane.later h3 { color: var(--muted); }
   .lane.now { border-color: rgba(252,82,0,.45); box-shadow: 0 0 24px rgba(252,82,0,.08) inset; }
   .empty { color: var(--muted); font-size: .85rem; font-style: italic; padding: 6px 2px; }
 
   .task { display: flex; gap: 10px; align-items: flex-start; background: var(--panel); border: 1px solid var(--line);
-          border-radius: 10px; padding: 10px 12px; margin-bottom: 8px; }
+          border-radius: 12px; padding: 11px 12px; margin-bottom: 8px; }
   .task:last-child { margin-bottom: 0; }
-  .task .tick { width: 26px; height: 26px; min-width: 26px; border-radius: 8px; border: 2px solid var(--muted);
-                background: transparent; color: transparent; font-size: 15px; line-height: 1; }
-  .task .tick:hover { border-color: var(--good); color: var(--good); }
-  .task .body { flex: 1; }
-  .task .title { font-weight: 600; font-size: .92rem; }
+  .tickbtn { width: 30px; height: 30px; min-width: 30px; border-radius: 9px; border: 2px solid var(--muted);
+             color: transparent; font-size: 16px; line-height: 1; transition: all .15s; }
+  .tickbtn:hover { border-color: var(--good); color: var(--good); background: rgba(67,214,146,.08); transform: scale(1.08); }
+  .task .body { flex: 1; min-width: 0; }
+  .task .title { font-weight: 600; font-size: .93rem; }
   .task .meta { font-size: .74rem; color: var(--muted); margin-top: 2px; }
   .task .meta .due { color: var(--warn); font-weight: 600; }
   .task .meta .overdue { color: var(--bad); font-weight: 700; }
-  .task .acts { display: flex; flex-direction: column; gap: 4px; }
+  .task .acts { display: flex; gap: 5px; margin-top: 8px; flex-wrap: wrap; }
   .task .acts button { background: var(--panel-2); border: 1px solid var(--line); color: var(--muted);
-                       font-size: .68rem; padding: 3px 8px; border-radius: 6px; }
+                       font-size: .72rem; padding: 5px 11px; border-radius: 999px; }
   .task .acts button:hover { color: var(--text); border-color: var(--accent); }
+  .task .acts .danger:hover { color: var(--bad); border-color: var(--bad); }
   .lane.now .task { border-color: rgba(252,82,0,.5); }
-  .lane.now .task .title { font-size: 1.05rem; }
-  .srcicon { font-size: 1rem; padding-top: 2px; }
+  .lane.now .task .title { font-size: 1.08rem; }
+  .srcicon { font-size: 1.05rem; padding-top: 1px; }
 
   .focus-btn { width: 100%; margin-top: 10px; background: linear-gradient(90deg, var(--accent), #ff8a4d);
-               color: #fff; font-weight: 800; padding: 12px; font-size: .95rem; }
-  .focus-btn:disabled { opacity: .4; cursor: default; }
+               color: #fff; font-weight: 800; padding: 13px; font-size: .95rem; border-radius: 11px; }
+  .focus-btn:disabled { opacity: .35; cursor: default; }
 
   .addrow { display: flex; gap: 8px; margin-top: 14px; }
   .addrow input { flex: 1; background: var(--panel-2); border: 1px solid var(--line); border-radius: 10px;
-                  color: var(--text); padding: 10px 14px; }
+                  color: var(--text); padding: 11px 14px; min-width: 0; }
   .addrow input::placeholder { color: var(--muted); }
-  .addrow button { background: var(--blue); color: #fff; font-weight: 700; padding: 0 18px; }
+  .addrow button { background: var(--blue); color: #fff; font-weight: 700; padding: 0 20px; border-radius: 10px; }
 
   .donewrap { margin-top: 14px; }
   .donewrap summary { color: var(--muted); font-size: .8rem; cursor: pointer; }
@@ -104,59 +110,81 @@
 
   /* ---------- timeline ---------- */
   .tl { list-style: none; }
-  .tl li { display: flex; gap: 14px; padding: 9px 0; border-bottom: 1px solid var(--line); }
+  .tl li { display: flex; gap: 14px; padding: 10px 0; border-bottom: 1px solid var(--line); }
   .tl li:last-child { border-bottom: none; }
-  .tl .t { min-width: 70px; color: var(--muted); font-variant-numeric: tabular-nums; font-size: .9rem; }
-  .tl .past { opacity: .45; }
-  .tl .nowmark { color: var(--good); font-weight: 700; }
+  .tl .t { min-width: 78px; color: var(--muted); font-variant-numeric: tabular-nums; font-size: .9rem; padding-top: 1px; }
+  .tl .past { opacity: .4; }
+  .tl .nowmark { color: var(--good); font-weight: 700; font-size: .8rem; }
+  .tl .nextmark { color: var(--warn); font-weight: 700; font-size: .8rem; }
 
   /* ---------- inbox ---------- */
-  .mailitem { border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; margin-bottom: 10px; background: var(--panel-2); }
-  .mailitem .row1 { display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; }
-  .mailitem .row1 .ico { font-size: 1.05rem; }
-  .mailitem .row1 strong { font-size: .95rem; }
-  .mailitem .from { color: var(--muted); font-size: .76rem; margin-left: auto; white-space: nowrap; }
-  .mailitem p { color: #b9c3d6; font-size: .85rem; margin-top: 4px; }
-  .chip { display: inline-block; margin-top: 8px; margin-right: 6px; font-size: .73rem; font-weight: 600; border-radius: 999px; padding: 2px 10px; }
+  details.mailitem { border: 1px solid var(--line); border-radius: 12px; margin-bottom: 8px; background: var(--panel-2); }
+  details.mailitem summary { list-style: none; display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap;
+                             padding: 12px 14px; cursor: pointer; }
+  details.mailitem summary::-webkit-details-marker { display: none; }
+  details.mailitem summary:hover { background: rgba(255,255,255,.02); }
+  .mailitem .ico { font-size: 1.05rem; }
+  .mailitem summary strong { font-size: .92rem; flex: 1; min-width: 200px; }
+  .mailitem .from { color: var(--muted); font-size: .74rem; white-space: nowrap; }
+  .mailitem .inner { padding: 0 14px 12px 38px; }
+  .mailitem .inner p { color: #b9c3d6; font-size: .85rem; }
+  .chip { display: inline-block; margin-top: 8px; margin-right: 6px; font-size: .73rem; font-weight: 600; border-radius: 999px; padding: 3px 11px; }
   .chip.hot  { background: rgba(240,106,106,.12); color: var(--bad);  border: 1px solid rgba(240,106,106,.4); }
   .chip.act  { background: rgba(250,209,101,.12); color: var(--warn); border: 1px solid rgba(250,209,101,.35); }
   .chip.ok   { background: rgba(67,214,146,.1);   color: var(--good); border: 1px solid rgba(67,214,146,.3); }
   .chip.info { background: rgba(74,134,232,.1);   color: #9fc0f5;     border: 1px solid rgba(74,134,232,.3); }
+  .urgdot { width: 8px; height: 8px; border-radius: 50%; align-self: center; }
 
   /* ---------- training ---------- */
-  .focus-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(74,134,232,.12);
-    border: 1px solid rgba(74,134,232,.35); color: #9fc0f5; border-radius: 999px; padding: 4px 14px;
-    font-size: .8rem; font-weight: 600; margin: 4px 0 14px; }
-  table.plan { width: 100%; border-collapse: collapse; font-size: .85rem; }
-  table.plan th { text-align: left; color: var(--muted); font-size: .7rem; text-transform: uppercase;
-                  letter-spacing: .08em; padding: 6px 8px; border-bottom: 1px solid var(--line); }
-  table.plan td { padding: 7px 8px; border-bottom: 1px solid var(--line); vertical-align: middle; }
-  table.plan tr.thisweek td { background: rgba(252,82,0,.07); }
-  table.plan input { width: 58px; background: var(--panel-2); border: 1px solid var(--line); border-radius: 6px;
-                     color: var(--text); padding: 4px 6px; text-align: right; }
-  .mini-bar { height: 8px; background: var(--panel-2); border-radius: 99px; overflow: hidden; min-width: 90px; }
-  .mini-bar > div { height: 100%; border-radius: 99px; }
-  .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 12px; margin: 14px 0; }
+  .schedrow { display: flex; gap: 10px; align-items: flex-start; padding: 10px 0; border-bottom: 1px solid var(--line); }
+  .schedrow:last-child { border-bottom: none; }
+  .schedrow .day { min-width: 86px; color: var(--muted); font-size: .85rem; padding-top: 4px; font-variant-numeric: tabular-nums; }
+  .schedrow.today-row .day { color: var(--accent); font-weight: 700; }
+  .schedrow .body { flex: 1; }
+  .schedrow .title { font-weight: 600; font-size: .92rem; }
+  .schedrow .sub2 { color: var(--muted); font-size: .76rem; }
+  .schedrow.done-row .title { text-decoration: line-through; color: var(--muted); }
+  .schedrow .badge { font-size: .7rem; font-weight: 700; border-radius: 999px; padding: 2px 9px; margin-left: 6px; vertical-align: 1px; }
+  .badge.strava { background: rgba(252,82,0,.14); color: #ffb38f; border: 1px solid rgba(252,82,0,.4); }
+  .badge.missed { background: rgba(240,106,106,.12); color: var(--bad); border: 1px solid rgba(240,106,106,.4); }
+  .badge.todayb { background: rgba(67,214,146,.12); color: var(--good); border: 1px solid rgba(67,214,146,.35); }
+  .schedrow .tickbtn.on { border-color: var(--good); background: rgba(67,214,146,.25); color: var(--good); }
+
+  .season { margin-top: 16px; overflow-x: auto; }
+  .season table { border-collapse: collapse; font-size: .78rem; min-width: 420px; }
+  .season th { color: var(--muted); font-weight: 600; padding: 4px 7px; font-size: .7rem; text-transform: uppercase; }
+  .season td { padding: 4px 7px; text-align: center; border-radius: 6px; }
+  .season .wklbl { color: var(--muted); text-align: left; white-space: nowrap; }
+  .season .s-done { color: var(--good); }
+  .season .s-miss { color: var(--bad); opacity: .8; }
+  .season .s-fut { color: #b9c3d6; }
+  .season .s-off { color: var(--line); }
+  .season .s-exc { color: var(--warn); }
+  .season .s-today { outline: 1px solid var(--accent); }
+
+  .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(118px, 1fr)); gap: 10px; margin: 14px 0; }
   .tile { background: var(--panel-2); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; }
-  .tile .num { font-size: 1.35rem; font-weight: 800; letter-spacing: -.02em; }
-  .tile .lbl { font-size: .7rem; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; margin-top: 2px; }
+  .tile .num { font-size: 1.3rem; font-weight: 800; letter-spacing: -.02em; }
+  .tile .lbl { font-size: .68rem; color: var(--muted); text-transform: uppercase; letter-spacing: .07em; margin-top: 2px; }
   .chart-note { color: var(--muted); font-size: .78rem; margin-top: 8px; }
   .insights { list-style: none; margin-top: 8px; }
   .insights li { display: flex; gap: 10px; padding: 7px 0; color: #cdd6e4; font-size: .9rem; }
   .insights li::before { content: "→"; color: var(--accent); font-weight: 700; }
-  .racebox { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 6px; font-size: .85rem; color: var(--muted); }
-  .racebox input { background: var(--panel-2); border: 1px solid var(--line); border-radius: 8px; color: var(--text); padding: 4px 8px; }
+  .focus-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(74,134,232,.12);
+    border: 1px solid rgba(74,134,232,.35); color: #9fc0f5; border-radius: 999px; padding: 4px 14px;
+    font-size: .8rem; font-weight: 600; margin: 4px 0 10px; }
 
-  /* ---------- shopping ---------- */
+  /* ---------- lists ---------- */
   .shoplist { list-style: none; }
-  .shoplist li { display: flex; align-items: center; gap: 10px; padding: 7px 0; border-bottom: 1px solid var(--line); }
+  .shoplist li { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--line); }
   .shoplist li:last-child { border-bottom: none; }
-  .shoplist .tick { width: 24px; height: 24px; min-width: 24px; border-radius: 7px; border: 2px solid var(--muted); background: transparent; }
+  .shoplist .tickbtn { width: 26px; height: 26px; min-width: 26px; }
   .shoplist li.done span { text-decoration: line-through; color: var(--muted); }
-  .shoplist li.done .tick { border-color: var(--good); background: rgba(67,214,146,.25); }
-  .shoplist .del { margin-left: auto; background: none; color: var(--muted); font-size: .9rem; }
+  .shoplist li.done .tickbtn { border-color: var(--good); background: rgba(67,214,146,.25); color: var(--good); }
+  .shoplist .del { margin-left: auto; color: var(--muted); font-size: 1rem; padding: 4px 8px; }
   .shoplist .del:hover { color: var(--bad); }
-  .clearbtn { margin-top: 10px; background: var(--panel-2); border: 1px solid var(--line); color: var(--muted); padding: 6px 14px; font-size: .8rem; }
+  .clearbtn { margin-top: 10px; background: var(--panel-2); border: 1px solid var(--line); color: var(--muted);
+              padding: 7px 15px; font-size: .8rem; border-radius: 999px; }
 
   /* ---------- focus overlay ---------- */
   #overlay { position: fixed; inset: 0; background: rgba(8,10,14,.97); z-index: 100; display: none;
@@ -168,15 +196,26 @@
   #timer { font-size: clamp(3rem, 10vw, 5.5rem); font-weight: 800; font-variant-numeric: tabular-nums;
            margin: 24px 0; color: var(--accent); letter-spacing: .02em; }
   #overlay .row { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
-  #overlay button { padding: 14px 26px; font-weight: 800; font-size: 1rem; }
+  #overlay button { padding: 14px 26px; font-weight: 800; font-size: 1rem; border-radius: 12px; }
   #ovDone { background: var(--good); color: #06281a; }
   #ovTimer { background: var(--panel-2); color: var(--text); border: 1px solid var(--line); }
-  #ovExit { background: none; color: var(--muted); }
+  #ovExit { color: var(--muted); }
+
+  /* ---------- snackbar ---------- */
+  #snack { position: fixed; left: 50%; bottom: 22px; transform: translateX(-50%) translateY(80px); z-index: 150;
+           background: var(--panel-2); border: 1px solid var(--line); border-radius: 12px; padding: 11px 16px;
+           display: flex; gap: 14px; align-items: center; font-size: .88rem; box-shadow: 0 8px 30px rgba(0,0,0,.5);
+           transition: transform .25s ease; max-width: 92vw; }
+  #snack.on { transform: translateX(-50%) translateY(0); }
+  #snack button { color: var(--accent); font-weight: 800; }
 
   /* ---------- confetti ---------- */
-  .cf { position: fixed; top: -12px; width: 9px; height: 14px; z-index: 200; pointer-events: none;
-        animation: fall linear forwards; }
+  .cf { position: fixed; top: -12px; width: 9px; height: 14px; z-index: 200; pointer-events: none; animation: fall linear forwards; }
   @keyframes fall { to { transform: translateY(105vh) rotate(720deg); opacity: .9; } }
+  @media (prefers-reduced-motion: reduce) {
+    .cf { display: none; }
+    html { scroll-behavior: auto; }
+  }
 
   footer { color: var(--muted); font-size: .76rem; text-align: center; margin-top: 30px; }
 </style>
@@ -186,24 +225,24 @@
 
   <div class="topbar">
     <div>
-      <div class="kicker">Personal HQ · Warsaw</div>
+      <div class="kicker">Personal HQ · Keyworth</div>
       <h1 id="greet">Hello, Brendan</h1>
       <div class="sub" id="datesub"></div>
     </div>
     <div class="statpills">
-      <span class="pill">🔥 Streak: <b id="streak">0</b> days</span>
-      <span class="pill">✅ Today: <b id="dayprog">0/0</b></span>
-      <span class="pill">🏁 Race in <b id="racecount">–</b> days</span>
+      <span class="pill">🔥 <b id="streak">0</b> day streak</span>
+      <span class="pill">✅ Today <b id="dayprog">0/0</b></span>
+      <span class="pill">🏖 Kołobrzeg in <b id="holcount">–</b>d</span>
     </div>
   </div>
 
   <nav>
     <a href="#sec-now">🎯 Now</a>
     <a href="#sec-day">📅 Today</a>
+    <a href="#sec-train">🏋️ Training</a>
     <a href="#sec-inbox">📬 Inbox</a>
-    <a href="#sec-train">🏃 Training</a>
     <a href="#sec-shop">🛒 Lists</a>
-    <a href="#sec-dump">🧠 Brain dump</a>
+    <a href="#sec-dump">🧠 Dump</a>
   </nav>
 
   <!-- =================== NOW / NEXT / LATER =================== -->
@@ -214,11 +253,11 @@
       <div class="lanes">
         <div class="lane now"><h3>▶ Now — just this</h3><div id="laneNow"></div>
           <button class="focus-btn" id="focusBtn">⛶ Enter focus mode</button></div>
-        <div class="lane next"><h3>Next — on deck (max 3)</h3><div id="laneNext"></div></div>
-        <div class="lane later"><h3>Later — parked, not lost</h3><div id="laneLater"></div></div>
+        <div class="lane next"><h3>Next — on deck <span class="cnt" id="nextCnt"></span></h3><div id="laneNext"></div></div>
+        <div class="lane later"><h3>Later — parked, not lost <span class="cnt" id="laterCnt"></span></h3><div id="laneLater"></div></div>
       </div>
       <div class="addrow">
-        <input id="newTask" placeholder="Add a task… (it goes to Later — triage when ready)">
+        <input id="newTask" placeholder="Add a task… (goes to Later — triage when ready)">
         <button id="addTask">Add</button>
       </div>
       <details class="donewrap"><summary id="doneSummary">Done today (0)</summary><div id="laneDone"></div></details>
@@ -228,52 +267,50 @@
   <!-- =================== TODAY TIMELINE =================== -->
   <section class="card" id="sec-day" data-sec="day">
     <div class="card-head"><h2><span class="dot">●</span> Today's shape</h2>
-      <span class="hint">calendar + exercise, merged</span><span class="chev">▼</span></div>
+      <span class="hint">calendar + training, merged</span><span class="chev">▼</span></div>
     <div class="card-body"><ul class="tl" id="timeline"></ul></div>
+  </section>
+
+  <!-- =================== TRAINING =================== -->
+  <section class="card" id="sec-train" data-sec="train">
+    <div class="card-head"><h2><span class="dot">●</span> Training — Aspire4Fitness block</h2>
+      <span class="hint">your schedule, ticked off against Strava</span><span class="chev">▼</span></div>
+    <div class="card-body">
+      <span class="focus-badge">🎯 Strava focus: Build — “Increase my VO2 max to get faster”</span>
+      <p class="sub" style="margin-bottom:6px">Bootcamp Mon · Wed · Thu + Run Club Tue + Saturday run, through <b style="color:var(--text)">Fri 10 July</b> (then 🏖). No session Thu 18 Jun — graduation travel.</p>
+
+      <div class="tiles" id="trainTiles"></div>
+
+      <h3 style="font-size:.72rem;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);margin:10px 0 2px" id="weekTitle">This week</h3>
+      <div id="weekSessions"></div>
+
+      <div class="season">
+        <h3 style="font-size:.72rem;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);margin:14px 0 6px">The whole block at a glance</h3>
+        <table id="seasonGrid"></table>
+        <p class="chart-note">✓ done · ✗ missed · icons = planned · ⚑ = exception (no session) · — = rest day</p>
+      </div>
+
+      <svg id="volChart" width="100%" height="190" viewBox="0 0 660 190" preserveAspectRatio="xMidYMid meet" style="margin-top:16px"></svg>
+      <p class="chart-note">Weekly run km from Strava, last 13 weeks. Orange = current week.</p>
+
+      <ul class="insights" id="trainInsights"></ul>
+    </div>
   </section>
 
   <!-- =================== INBOX DIGEST =================== -->
   <section class="card" id="sec-inbox" data-sec="inbox">
     <div class="card-head"><h2><span class="dot">●</span> Inbox digest &amp; deadlines</h2>
       <span class="hint" id="inboxHint"></span><span class="chev">▼</span></div>
-    <div class="card-body" id="inboxList"></div>
+    <div class="card-body" id="inboxList" style="padding-top:10px"></div>
   </section>
 
-  <!-- =================== TRAINING =================== -->
-  <section class="card" id="sec-train" data-sec="train">
-    <div class="card-head"><h2><span class="dot">●</span> Training — your plan vs reality</h2>
-      <span class="hint">targets are editable — they're yours</span><span class="chev">▼</span></div>
-    <div class="card-body">
-      <span class="focus-badge">🎯 Strava focus: Build — “Increase my VO2 max to get faster”</span>
-      <div class="racebox">Race day: <input type="date" id="raceDate">
-        <span>— plan ends week of 29 Jun · holiday in Kołobrzeg starts 11 Jul, safely after 🏖</span></div>
-
-      <div class="tiles" id="trainTiles"></div>
-
-      <div style="overflow-x:auto">
-      <table class="plan">
-        <thead><tr>
-          <th>Wk</th><th>Dates</th><th>Target km</th><th>Long run km</th><th>Actual km</th><th style="min-width:110px">Progress</th><th></th>
-        </tr></thead>
-        <tbody id="planBody"></tbody>
-      </table>
-      </div>
-      <p class="chart-note">Actuals come straight from your Strava runs (refreshed 9 Jun, 19:30). Edit any target — saved locally, instantly recomputed.</p>
-
-      <svg id="planChart" width="100%" height="200" viewBox="0 0 660 200" preserveAspectRatio="xMidYMid meet" style="margin-top:14px"></svg>
-      <p class="chart-note">Hollow bars = your targets · solid blue = what Strava recorded · orange = this week.</p>
-
-      <ul class="insights" id="trainInsights"></ul>
-    </div>
-  </section>
-
-  <!-- =================== SHOPPING / LISTS =================== -->
+  <!-- =================== SHOPPING =================== -->
   <section class="card" id="sec-shop" data-sec="shop">
     <div class="card-head"><h2><span class="dot">●</span> Shopping list</h2>
       <span class="hint" id="shopHint"></span><span class="chev">▼</span></div>
     <div class="card-body">
       <ul class="shoplist" id="shopList"></ul>
-      <div class="addrow"><input id="newShop" placeholder="Add item… milk, stamps, gel for race day"><button id="addShop">Add</button></div>
+      <div class="addrow"><input id="newShop" placeholder="Add item…"><button id="addShop">Add</button></div>
       <button class="clearbtn" id="clearShop">Clear ticked items</button>
     </div>
   </section>
@@ -288,7 +325,7 @@
     </div>
   </section>
 
-  <footer>Personal HQ · live data pulled 9 Jun 2026 19:30 (Gmail · Calendar · Strava) · your tasks, plan edits &amp; lists persist in this browser only<br>
+  <footer>Personal HQ · live data pulled 9 Jun 2026 (Gmail · Calendar · Strava) · everything you edit stays in this browser<br>
   Ask Claude Code to "refresh my briefing" to re-pull live data without losing your edits.</footer>
 </div>
 
@@ -305,119 +342,155 @@
   </div>
 </div>
 
+<div id="snack"><span id="snackMsg"></span><button id="snackUndo">Undo</button></div>
+
 <script>
 "use strict";
 /* ====================================================================
    LIVE DATA — pulled from Gmail / Google Calendar / Strava, 2026-06-09
    ==================================================================== */
 const LIVE = {
-  pulled: "2026-06-09T19:30+02:00",
-
-  // Inbox digest. urgency: hot > act > info
   inbox: [
-    { ico: "🎓", title: "Tes QTS — conditional offer received TODAY", from: "Andrew Locke · Tes Institute · 12:23",
-      body: "“Congratulations! I'm delighted to make you a conditional offer to join our Assessment Only programme, subject to the completion of the below compliance requirements.”",
-      chips: [["hot", "Action: work through compliance checklist"], ["info", "cc: Zofia & Katarzyna (Akademeia)"]] },
-    { ico: "🧑‍🏫", title: "QTS thread — mentor + numeracy/literacy tests", from: "Zofia Reeves · Akademeia · 13:40",
-      body: "Mentor being confirmed. Skills tests likely need sitting in the UK — Zofia sent practice links (Superprof numeracy + more). You're back in Poland Fri 19 Jun for graduation; can visit school that afternoon.",
-      chips: [["act", "Action: confirm test dates with placement school"], ["act", "Prep: practice numeracy & literacy tests"]] },
-    { ico: "🗳️", title: "Overseas voter registration expiring", from: "Ealing Council elections · 3 Jun",
-      body: "“Your overseas voter registration is due to expire shortly.” Renewal form is attached to the email — or renew online.",
-      chips: [["hot", "Action: renew — takes ~5 min"]] },
+    { ico: "🎓", title: "Tes QTS — conditional offer received", from: "Andrew Locke · Tes · 9 Jun",
+      body: "“Congratulations! I'm delighted to make you a conditional offer to join our Assessment Only programme, subject to the completion of the below compliance requirements.” cc: Zofia & Katarzyna (Akademeia).",
+      chips: [["hot", "Action: work through compliance checklist"]] },
+    { ico: "🧑‍🏫", title: "QTS thread — mentor + numeracy/literacy tests", from: "Zofia Reeves · 9 Jun",
+      body: "Mentor being confirmed. Skills tests likely need sitting in the UK — Zofia sent practice links (Superprof numeracy + more). You're in Poland Fri 19 Jun for graduation; school visit possible that afternoon.",
+      chips: [["act", "Confirm test dates with placement school"], ["act", "Prep: practice numeracy & literacy tests"]] },
+    { ico: "🗳️", title: "Overseas voter registration expiring", from: "Ealing Council · 3 Jun",
+      body: "“Your overseas voter registration is due to expire shortly.” Renewal form attached to the email — or renew online. ~5 minutes.",
+      chips: [["hot", "Action: renew now"]] },
     { ico: "💼", title: "ZUS contributions — May 2026", from: "Biuro Szabo · 1 Jun",
-      body: "Social security payment for maj 2026 is coming up. Payer: Brendan McClintock-Ryan. Standard self-employed deadline: 20th of the month.",
-      chips: [["act", "Action: pay by Mon 22 Jun (20th falls on Saturday)"]] },
-    { ico: "📦", title: "InPost parcel waiting — Koszyk365.pl", from: "Allegro/InPost · today 17:21",
+      body: "Social security payment for maj 2026 coming up. Standard self-employed deadline is the 20th — that's a Saturday, so Mon 22 Jun.",
+      chips: [["act", "Pay by Mon 22 Jun"]] },
+    { ico: "📦", title: "InPost parcel waiting — Koszyk365.pl", from: "InPost · 9 Jun",
       body: "Parcel no. …963995 (home goods) is in the paczkomat. Pickup windows usually expire after 48h.",
-      chips: [["act", "Action: collect by Thu 11 Jun"]] },
+      chips: [["act", "Collect by Thu 11 Jun"]] },
     { ico: "🤝", title: "Mentoring meeting with Edmore — overdue", from: "PushFar · 28 May",
       body: "“It looks like you are now overdue a mentoring meeting with Edmore. Schedule one in now to stay on track.”",
-      chips: [["act", "Action: send Edmore two time options"]] },
+      chips: [["act", "Send Edmore two time options"]] },
     { ico: "🏨", title: "Kołobrzeg holiday confirmed — 11→25 Jul", from: "Radisson · 31 May",
-      body: "Radisson Resort Kołobrzeg, reservation 2LJZZ9GN. Two full weeks on the Baltic — and it starts after your 10k plan finishes. Perfect timing.",
+      body: "Radisson Resort Kołobrzeg, reservation 2LJZZ9GN. Starts the day after your bootcamp block ends. Perfect timing.",
       chips: [["info", "No action — booked ✓"]] },
-    { ico: "🌹", title: "Labour Party membership application received", from: "Labour membership · 29 May",
+    { ico: "🌹", title: "Labour Party membership application received", from: "Labour · 29 May",
       body: "Application acknowledged and being processed.",
       chips: [["info", "No action — wait for confirmation"]] },
-    { ico: "🔐", title: "GitHub device verification", from: "GitHub · today 20:55",
+    { ico: "🔐", title: "GitHub device verification", from: "GitHub · 9 Jun",
       body: "A sign-in attempt asked for device verification (account elysium-max).",
       chips: [["ok", "If that was you: done. If not: rotate password"]] },
   ],
 
-  // Recurring + one-off calendar events. dow: 0=Sun … 6=Sat
-  recurring: [
-    { dow: 2, time: "17:00", end: "18:00", title: "🏃 Run — Łazienki Park", note: "non-negotiable · backup Wed/Thu" },
-    { dow: 0, time: "08:00", end: "09:30", title: "💪 Gym", note: "miss it and the week is a write-off" },
-  ],
   oneoff: [
-    { date: "2026-06-19", time: "19:00", end: "22:00", title: "🎓 Graduation", note: "back in Poland this day — travel + school visit possible in the afternoon" },
+    { date: "2026-06-19", time: "19:00", end: "22:00", title: "🎓 Graduation", note: "in Poland — travel day; school visit possible in the afternoon" },
     { date: "2026-07-11", time: "15:00", end: "16:00", title: "🏖 Kołobrzeg — check-in (until 25 Jul)", note: "Radisson, res. 2LJZZ9GN" },
   ],
+  sundayGym: { time: "08:00", end: "09:30", title: "💪 Gym", note: "your calendar: “miss it and the week is a write-off”" },
 
-  // Strava: weekly actual run km, plan-aligned weeks (W1 = 20 Apr 2026)
-  weeks: [
-    { n: 1,  start: "2026-04-20", label: "20–26 Apr",      actual: 8.0,  long: 5.0 },
-    { n: 2,  start: "2026-04-27", label: "27 Apr–3 May",   actual: 11.5, long: 6.5 },
-    { n: 3,  start: "2026-05-04", label: "4–10 May",       actual: 0,    long: 0 },
-    { n: 4,  start: "2026-05-11", label: "11–17 May",      actual: 2.6,  long: 2.6 },
-    { n: 5,  start: "2026-05-18", label: "18–24 May",      actual: 0,    long: 0 },
-    { n: 6,  start: "2026-05-25", label: "25–31 May",      actual: 8.0,  long: 4.0 },
-    { n: 7,  start: "2026-06-01", label: "1–7 Jun",        actual: 7.4,  long: 4.6 },
-    { n: 8,  start: "2026-06-08", label: "8–14 Jun",       actual: 0,    long: 0 },
-    { n: 9,  start: "2026-06-15", label: "15–21 Jun",      actual: null, long: null },
-    { n: 10, start: "2026-06-22", label: "22–28 Jun",      actual: null, long: null },
-    { n: 11, start: "2026-06-29", label: "29 Jun–5 Jul",   actual: null, long: null },
+  // Strava run dates (auto-ticks matching scheduled runs) — as of 9 Jun
+  runDates: ["2026-04-25","2026-04-28","2026-05-03","2026-05-13","2026-05-28","2026-05-31","2026-06-05","2026-06-06"],
+
+  // Weekly run km, last 13 weeks (Mon-start)
+  volWeeks: [
+    { label: "16 Mar", km: 5.8 }, { label: "23 Mar", km: 0 }, { label: "30 Mar", km: 0 },
+    { label: "6 Apr", km: 14.1 }, { label: "13 Apr", km: 0 }, { label: "20 Apr", km: 8.0 },
+    { label: "27 Apr", km: 11.6 }, { label: "4 May", km: 0 }, { label: "11 May", km: 2.6 },
+    { label: "18 May", km: 0 }, { label: "25 May", km: 8.0 }, { label: "1 Jun", km: 7.4 },
+    { label: "8 Jun", km: 0, current: true },
   ],
-  bestRecentPace: "6:24", prPace: "5:45", longestRun: 6.5, last30: { km: 18.0, runs: 5 },
+  bestRecentPace: "6:24", prPace: "5:45", last30: { km: 18.0, runs: 5 },
 };
 
 /* ====================================================================
-   STATE — yours, persisted in localStorage. Live data above never
-   overwrites your edits; seeds apply only on first visit.
+   YOUR TRAINING SCHEDULE — Aspire4Fitness, Keyworth (from their poster)
    ==================================================================== */
-const KEY = "personal-hq-v2";
+const SCHED = {
+  firstWeek: "2026-06-08",          // Monday of the current block week
+  until: "2026-07-10",              // last day of the block (holiday starts 11 Jul)
+  exceptions: { "2026-06-18": "graduation travel" },
+  rules: {                          // keyed by JS getDay(): 1=Mon … 6=Sat
+    1: { kind: "bootcamp", ico: "🏋️", title: "Bootcamp — Aspire4Fitness", time: "10:00–11:00 or 18:30–19:30" },
+    2: { kind: "run",      ico: "🏃", title: "Run Club — Aspire4Fitness", time: "18:00–18:45", extra: "optional after: School of Calisthenics 19:30–20:30 (book via their site)" },
+    3: { kind: "bootcamp", ico: "🏋️", title: "Bootcamp — Aspire4Fitness", time: "07:00–07:45 or 18:30–19:30" },
+    4: { kind: "bootcamp", ico: "🏋️", title: "Bootcamp — Aspire4Fitness", time: "10:00–11:00 or 18:30–19:30" },
+    6: { kind: "run",      ico: "🏃", title: "Saturday run — your route", time: "pick your time", extra: "Aspire bootcamp also runs Sat 09:30–10:30 if you fancy a double" },
+  },
+};
+
+/* ====================================================================
+   STATE — yours, persisted in localStorage; seeds only on first visit.
+   Migrates tasks/lists/streak from the previous version automatically.
+   ==================================================================== */
+const KEY = "personal-hq-v3";
+const OLD_KEY = "personal-hq-v2";
 const uid = () => Math.random().toString(36).slice(2, 9);
-const todayStr = () => new Date().toISOString().slice(0, 10);
+const todayStr = () => {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+};
+
+const CALL_TASK = { ico: "📞", title: "Call Aspire4Fitness — sign up for bootcamp", meta: "Keyworth · Mon/Wed/Thu block starts this week", due: "2026-06-10", lane: "now" };
 
 const SEED = {
   tasks: [
-    { id: uid(), ico: "🏃", title: "Run — Łazienki Park (or move to Wed/Thu)", meta: "Week 8 of 11 · 0 km logged this week", due: "2026-06-09", lane: "now" },
-    { id: uid(), ico: "🎓", title: "Start Tes QTS compliance checklist", meta: "from today's offer email", due: "2026-06-12", lane: "next" },
-    { id: uid(), ico: "📦", title: "Collect InPost parcel (…963995)", meta: "Koszyk365.pl · paczkomat", due: "2026-06-11", lane: "next" },
+    { id: uid(), ...CALL_TASK },
+    { id: uid(), ico: "🎓", title: "Start Tes QTS compliance checklist", meta: "from the offer email", due: "2026-06-12", lane: "next" },
     { id: uid(), ico: "🗳️", title: "Renew overseas voter registration", meta: "form attached in Ealing email · ~5 min", due: "2026-06-13", lane: "next" },
+    { id: uid(), ico: "📦", title: "Collect InPost parcel (…963995)", meta: "Koszyk365.pl · paczkomat", due: "2026-06-11", lane: "next" },
     { id: uid(), ico: "💼", title: "Pay ZUS for May", meta: "details in Biuro Szabo email", due: "2026-06-22", lane: "later" },
     { id: uid(), ico: "🤝", title: "Schedule mentoring with Edmore", meta: "overdue per PushFar · offer two slots", due: "2026-06-12", lane: "later" },
     { id: uid(), ico: "📝", title: "Practice numeracy test (Zofia's links)", meta: "QTS skills tests · likely sat in UK", due: "2026-06-18", lane: "later" },
     { id: uid(), ico: "✉️", title: "Confirm skills-test dates with placement school", meta: "from QTS thread", due: "2026-06-15", lane: "later" },
   ],
-  doneLog: [],              // {id, ico, title, doneOn}
+  doneLog: [],
   shopping: [
-    { id: uid(), txt: "Energy gels — test before race day", done: false },
+    { id: uid(), txt: "Energy gels — test on a Saturday run", done: false },
     { id: uid(), txt: "Plasters / blister tape", done: false },
   ],
   dump: [],
-  planTargets: [8, 10, 11, 12, 13, 14, 15, 16, 17, 12, 10],
-  planLongs:   [5, 6.5, 7, 7.5, 8, 8.5, 9, 8, 9.5, 8, 10],
-  raceDate: "2026-07-05",
+  sessionDone: {},                  // "YYYY-MM-DD" -> true (manually ticked sessions)
   streak: 0, lastDoneDate: null,
-  collapsed: { inbox: false, shop: true, dump: true, day: false, train: false, now: false },
+  collapsed: { inbox: true, shop: true, dump: true, day: false, train: false, now: false },
 };
 
 let S = (() => {
-  try { const raw = localStorage.getItem(KEY); if (raw) return JSON.parse(raw); } catch (e) {}
+  try {
+    const raw = localStorage.getItem(KEY);
+    if (raw) return JSON.parse(raw);
+    const old = localStorage.getItem(OLD_KEY);
+    if (old) {
+      // migrate: keep your tasks, lists, streak — drop the old preset plan
+      const o = JSON.parse(old);
+      const s = JSON.parse(JSON.stringify(SEED));
+      if (Array.isArray(o.tasks)) s.tasks = o.tasks.filter(t => !/Łazienki/.test(t.title || ""));
+      if (Array.isArray(o.doneLog)) s.doneLog = o.doneLog;
+      if (Array.isArray(o.shopping)) s.shopping = o.shopping;
+      if (Array.isArray(o.dump)) s.dump = o.dump;
+      if (o.streak) { s.streak = o.streak; s.lastDoneDate = o.lastDoneDate; }
+      if (!s.tasks.some(t => /aspire/i.test(t.title || ""))) {
+        s.tasks.forEach(t => { if (t.lane === "now") t.lane = "next"; });
+        s.tasks.unshift({ id: uid(), ...CALL_TASK });
+      }
+      return s;
+    }
+  } catch (e) {}
   return JSON.parse(JSON.stringify(SEED));
 })();
 const save = () => localStorage.setItem(KEY, JSON.stringify(S));
 
-/* ==================== generic helpers ==================== */
+/* ==================== helpers ==================== */
 const $ = id => document.getElementById(id);
-const esc = s => s.replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 const svgEl = (tag, attrs, parent) => {
   const el = document.createElementNS("http://www.w3.org/2000/svg", tag);
   for (const [k, v] of Object.entries(attrs)) el.setAttribute(k, v);
   parent.appendChild(el); return el;
 };
+const dstr = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+const addDays = (s, n) => { const d = new Date(s + "T12:00"); d.setDate(d.getDate() + n); return dstr(d); };
+const niceDay = s => new Date(s + "T12:00").toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short" });
+
 function confetti() {
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
   const colors = ["#fc5200", "#43d692", "#4a86e8", "#fad165", "#f691b3"];
   for (let i = 0; i < 60; i++) {
     const d = document.createElement("div");
@@ -426,11 +499,31 @@ function confetti() {
     d.style.background = colors[i % colors.length];
     d.style.animationDuration = 1.4 + Math.random() * 1.6 + "s";
     d.style.animationDelay = Math.random() * .3 + "s";
-    d.style.transform = `rotate(${Math.random() * 360}deg)`;
     document.body.appendChild(d);
     setTimeout(() => d.remove(), 3500);
   }
 }
+
+/* ---- undo snackbar ---- */
+let lastAction = null, snackTmr = null;
+function showSnack(msg) {
+  $("snackMsg").textContent = msg;
+  $("snack").classList.add("on");
+  clearTimeout(snackTmr);
+  snackTmr = setTimeout(() => $("snack").classList.remove("on"), 5000);
+}
+$("snackUndo").onclick = () => {
+  if (!lastAction) return;
+  if (lastAction.type === "complete") {
+    S.doneLog = S.doneLog.filter(d => d.id !== lastAction.task.id);
+    S.tasks.unshift(lastAction.task);
+  } else if (lastAction.type === "delete") {
+    S.tasks.unshift(lastAction.task);
+  }
+  lastAction = null;
+  $("snack").classList.remove("on");
+  renderTasks();
+};
 
 /* ==================== header ==================== */
 (function header() {
@@ -439,29 +532,30 @@ function confetti() {
   $("greet").textContent = (h < 12 ? "Good morning" : h < 18 ? "Good afternoon" : "Good evening") + ", Brendan 👋";
   $("datesub").textContent = now.toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long", year: "numeric" }) +
     " · live data: Gmail · Calendar · Strava";
+  $("holcount").textContent = Math.max(0, Math.ceil((new Date("2026-07-11T00:00") - now) / 864e5));
 })();
 
-/* ==================== tasks: now / next / later ==================== */
+/* ==================== tasks ==================== */
 function fmtDue(due) {
   if (!due) return "";
   const today = todayStr();
-  if (due < today) return `<span class="overdue">⚠ overdue (${due.slice(5)})</span>`;
+  if (due < today) return `<span class="overdue">⚠ overdue (${niceDay(due)})</span>`;
   if (due === today) return `<span class="due">due today</span>`;
-  const d = new Date(due + "T00:00");
-  return `<span class="due">due ${d.toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short" })}</span>`;
+  return `<span class="due">due ${niceDay(due)}</span>`;
 }
 function taskHTML(t, lane) {
   const moves = {
-    now:   [["→ next", "next"], ["park", "later"]],
-    next:  [["▶ now", "now"], ["park", "later"]],
-    later: [["▶ now", "now"], ["→ next", "next"]],
+    now:   [["→ next", "next"], ["park ↓", "later"]],
+    next:  [["▶ do now", "now"], ["park ↓", "later"]],
+    later: [["▶ do now", "now"], ["↑ next", "next"]],
   }[lane].map(([lbl, to]) => `<button data-move="${to}" data-id="${t.id}">${lbl}</button>`).join("");
+  const meta = [t.meta ? esc(t.meta) : "", fmtDue(t.due)].filter(Boolean).join(" · ");
   return `<div class="task">
-    <button class="tick" data-done="${t.id}" title="done!">✓</button>
+    <button class="tickbtn" data-done="${t.id}" title="mark done" aria-label="mark done">✓</button>
     <span class="srcicon">${t.ico || "•"}</span>
     <div class="body"><div class="title">${esc(t.title)}</div>
-      <div class="meta">${t.meta ? esc(t.meta) + " · " : ""}${fmtDue(t.due)}</div></div>
-    <div class="acts">${moves}<button data-del="${t.id}" title="delete">✕</button></div>
+      ${meta ? `<div class="meta">${meta}</div>` : ""}
+      <div class="acts">${moves}<button class="danger" data-del="${t.id}" title="delete">✕ delete</button></div></div>
   </div>`;
 }
 function renderTasks() {
@@ -472,6 +566,8 @@ function renderTasks() {
       `<div class="empty">${lane === "now" ? "Nothing here. Pull ONE thing from Next." :
         lane === "next" ? "Empty — promote from Later when ready." : "All clear 🎉"}</div>`;
   }
+  $("nextCnt").textContent = `${S.tasks.filter(t => t.lane === "next").length}/3`;
+  $("laterCnt").textContent = S.tasks.filter(t => t.lane === "later").length || "";
   const doneToday = S.doneLog.filter(d => d.doneOn === todayStr());
   $("doneSummary").textContent = `Done today (${doneToday.length})`;
   $("laneDone").innerHTML = doneToday.map(d => `<div class="done-item">${d.ico || "✓"} ${esc(d.title)}</div>`).join("");
@@ -487,10 +583,12 @@ function completeTask(id) {
   S.doneLog.push({ id: t.id, ico: t.ico, title: t.title, doneOn: todayStr() });
   const today = todayStr();
   if (S.lastDoneDate !== today) {
-    const yest = new Date(Date.now() - 864e5).toISOString().slice(0, 10);
+    const yest = addDays(today, -1);
     S.streak = (S.lastDoneDate === yest) ? S.streak + 1 : 1;
     S.lastDoneDate = today;
   }
+  lastAction = { type: "complete", task: t };
+  showSnack(`✓ ${t.title}`);
   confetti();
   renderTasks();
 }
@@ -498,7 +596,12 @@ document.addEventListener("click", e => {
   const b = e.target.closest("button");
   if (!b) return;
   if (b.dataset.done) completeTask(b.dataset.done);
-  if (b.dataset.del) { S.tasks = S.tasks.filter(t => t.id !== b.dataset.del); renderTasks(); }
+  if (b.dataset.del) {
+    const t = S.tasks.find(t => t.id === b.dataset.del);
+    S.tasks = S.tasks.filter(x => x.id !== b.dataset.del);
+    if (t) { lastAction = { type: "delete", task: t }; showSnack(`Deleted: ${t.title}`); }
+    renderTasks();
+  }
   if (b.dataset.move) {
     const t = S.tasks.find(t => t.id === b.dataset.id);
     if (!t) return;
@@ -513,14 +616,14 @@ document.addEventListener("click", e => {
 $("addTask").onclick = () => {
   const v = $("newTask").value.trim();
   if (!v) return;
-  S.tasks.push({ id: uid(), ico: "✦", title: v, meta: "added by you", due: null, lane: "later" });
+  S.tasks.push({ id: uid(), ico: "✦", title: v, meta: "", due: null, lane: "later" });
   $("newTask").value = ""; renderTasks();
 };
 $("newTask").addEventListener("keydown", e => { if (e.key === "Enter") $("addTask").click(); });
 
 /* ==================== focus overlay ==================== */
 let tmr = null, tLeft = 25 * 60;
-function fmtT(s) { return `${String(Math.floor(s / 60)).padStart(2, "0")}:${String(s % 60).padStart(2, "0")}`; }
+const fmtT = s => `${String(Math.floor(s / 60)).padStart(2, "0")}:${String(s % 60).padStart(2, "0")}`;
 $("focusBtn").onclick = () => {
   const t = S.tasks.find(t => t.lane === "now");
   if (!t) return;
@@ -544,150 +647,179 @@ $("ovExit").onclick = exitOverlay;
 $("ovDone").onclick = () => { completeTask($("overlay").dataset.task); exitOverlay(); };
 document.addEventListener("keydown", e => { if (e.key === "Escape") exitOverlay(); });
 
+/* ==================== schedule engine ==================== */
+function buildSchedule() {
+  const out = [];
+  let d = SCHED.firstWeek;
+  while (d <= SCHED.until) {
+    const dow = new Date(d + "T12:00").getDay();
+    const rule = SCHED.rules[dow];
+    if (rule) out.push({ date: d, dow, exc: SCHED.exceptions[d] || null, ...rule });
+    d = addDays(d, 1);
+  }
+  return out;
+}
+const SESSIONS = buildSchedule();
+function sessionState(s) {
+  const today = todayStr();
+  if (s.exc) return "exc";
+  if (S.sessionDone[s.date]) return "done";
+  if (s.kind === "run" && LIVE.runDates.includes(s.date)) return "strava";
+  if (s.date < today) return "missed";
+  if (s.date === today) return "today";
+  return "future";
+}
+
+function renderTraining() {
+  const today = todayStr();
+  // current week (Mon–Sun) containing today, clamped to block
+  const t = new Date(today + "T12:00");
+  const monday = dstr(new Date(t.getTime() - ((t.getDay() + 6) % 7) * 864e5));
+  const weekSessions = SESSIONS.filter(s => s.date >= monday && s.date <= addDays(monday, 6));
+  $("weekTitle").textContent = `This week · ${niceDay(monday)} → ${niceDay(addDays(monday, 6))}`;
+
+  $("weekSessions").innerHTML = weekSessions.length ? weekSessions.map(s => {
+    const st = sessionState(s);
+    const ticked = st === "done" || st === "strava";
+    const badge = st === "strava" ? '<span class="badge strava">✓ from Strava</span>' :
+                  st === "missed" ? '<span class="badge missed">missed</span>' :
+                  st === "today"  ? '<span class="badge todayb">today</span>' :
+                  s.exc ? `<span class="badge missed">off — ${esc(s.exc)}</span>` : "";
+    return `<div class="schedrow ${st === "today" ? "today-row" : ""} ${ticked ? "done-row" : ""}">
+      <span class="day">${niceDay(s.date)}</span>
+      <button class="tickbtn ${ticked ? "on" : ""}" data-sess="${s.date}" ${s.exc ? "disabled" : ""}
+        title="${st === "strava" ? "matched from Strava" : "tick when done"}">✓</button>
+      <div class="body"><span class="title">${s.ico} ${esc(s.title)}</span>${badge}
+        <div class="sub2">${esc(s.time)}${s.extra ? " · " + esc(s.extra) : ""}</div></div>
+    </div>`;
+  }).join("") : '<p class="empty">Block finished — enjoy Kołobrzeg 🏖</p>';
+
+  // season grid
+  const dows = [1, 2, 3, 4, 5, 6, 0], names = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+  let rows = `<tr><th class="wklbl"></th>${names.map(n => `<th>${n}</th>`).join("")}</tr>`;
+  let wk = SCHED.firstWeek;
+  while (wk <= SCHED.until) {
+    rows += `<tr><td class="wklbl">${niceDay(wk).slice(4)}</td>` + dows.map((dw, ix) => {
+      const date = addDays(wk, ix);
+      const s = SESSIONS.find(x => x.date === date);
+      const isToday = date === today ? "s-today" : "";
+      if (!s) return `<td class="s-off ${isToday}">—</td>`;
+      const st = sessionState(s);
+      const sym = st === "exc" ? "⚑" : st === "done" || st === "strava" ? "✓" : st === "missed" ? "✗" : s.ico;
+      const cls = st === "exc" ? "s-exc" : st === "done" || st === "strava" ? "s-done" : st === "missed" ? "s-miss" : "s-fut";
+      return `<td class="${cls} ${isToday}" title="${niceDay(date)} · ${esc(s.title)}">${sym}</td>`;
+    }).join("") + "</tr>";
+    wk = addDays(wk, 7);
+  }
+  $("seasonGrid").innerHTML = rows;
+
+  // tiles
+  const weekDone = weekSessions.filter(s => ["done", "strava"].includes(sessionState(s))).length;
+  const weekPlanned = weekSessions.filter(s => !s.exc).length;
+  const allDone = SESSIONS.filter(s => ["done", "strava"].includes(sessionState(s))).length;
+  const allPlanned = SESSIONS.filter(s => !s.exc).length;
+  const daysLeft = Math.max(0, Math.ceil((new Date(SCHED.until + "T23:59") - new Date()) / 864e5));
+  $("trainTiles").innerHTML = [
+    [`${weekDone}/${weekPlanned}`, "sessions this week"],
+    [`${allDone}/${allPlanned}`, "block total"],
+    [`${daysLeft}d`, "left in block"],
+    [`${LIVE.last30.km} km`, "run · last 30 days"],
+    [LIVE.bestRecentPace, "best recent pace /km"],
+    [LIVE.prPace, "5k PR pace /km"],
+  ].map(([n, l]) => `<div class="tile"><div class="num">${n}</div><div class="lbl">${l}</div></div>`).join("");
+
+  // insights
+  $("trainInsights").innerHTML = [
+    `<li><strong>First job: the phone call.</strong> Aspire4Fitness, Keyworth — sign up, and pick your Mon/Thu slot (10:00 vs 18:30) and Wed slot (07:00 vs 18:30) while you're on.</li>`,
+    `<li><strong>5 sessions/week is a real jump</strong> from your recent ~2. Strong move — just protect the easy pace on runs so bootcamp legs recover.</li>`,
+    `<li><strong>Thu 18 Jun is off</strong> (graduation travel) and that whole week is disrupted — Tue Run Club + Sat run in Poland keeps it a 3-session week. That's a win, not a fail.</li>`,
+    `<li><strong>VO2 max focus:</strong> Run Club Tuesdays is your quality session; Saturday stays easy/long. The optional School of Calisthenics (Tue 19:30) stacks nicely if you've got the juice.</li>`,
+    `<li><strong>The finish line is real:</strong> last session Thu 9 Jul, holiday starts Sat 11 Jul. A clean 4½-week block, then two weeks on the Baltic with it banked.</li>`,
+  ].join("");
+  save();
+}
+document.addEventListener("click", e => {
+  const b = e.target.closest("button[data-sess]");
+  if (!b) return;
+  const d = b.dataset.sess;
+  if (S.sessionDone[d]) delete S.sessionDone[d]; else { S.sessionDone[d] = true; confetti(); }
+  renderTraining();
+});
+
 /* ==================== today timeline ==================== */
 (function timeline() {
   const now = new Date();
-  const dow = now.getDay(), ds = todayStr();
+  const ds = todayStr(), dow = now.getDay(), cur = now.toTimeString().slice(0, 5);
   const evts = [];
-  LIVE.recurring.forEach(r => { if (r.dow === dow) evts.push(r); });
+  const sess = SESSIONS.find(s => s.date === ds && !s.exc);
+  if (sess) {
+    const t0 = (sess.time.match(/^\d\d:\d\d/) || ["09:00"])[0];
+    evts.push({ time: t0, end: "23:59", title: `${sess.ico} ${sess.title}`, note: sess.time + (sess.extra ? " · " + sess.extra : "") });
+  }
+  if (dow === 0) evts.push({ time: LIVE.sundayGym.time, end: LIVE.sundayGym.end, title: LIVE.sundayGym.title, note: LIVE.sundayGym.note });
   LIVE.oneoff.forEach(o => { if (o.date === ds) evts.push(o); });
   evts.sort((a, b) => a.time.localeCompare(b.time));
-  const cur = now.toTimeString().slice(0, 5);
+  let nextMarked = false;
   $("timeline").innerHTML = evts.length ? evts.map(e => {
-    const past = e.end < cur;
-    const live = e.time <= cur && cur <= e.end;
+    const past = (e.end || e.time) < cur;
+    const live = e.time <= cur && cur <= (e.end || "23:59");
+    let mark = "";
+    if (live) mark = ' <span class="nowmark">● now</span>';
+    else if (!past && !nextMarked) { mark = ' <span class="nextmark">next ▸</span>'; nextMarked = true; }
     return `<li class="${past ? "past" : ""}"><span class="t">${e.time}</span>
-      <span><strong>${esc(e.title)}</strong>${live ? ' <span class="nowmark">● now</span>' : ""}
-      <br><small style="color:var(--muted)">${esc(e.note || "")}</small></span></li>`;
-  }).join("") : `<li><span class="t">—</span><span>No fixed events today.
-    <small style="color:var(--muted)">Open calendar week: 🏃 Tue 17:00 · 💪 Sun 08:00 · 🎓 Graduation Fri 19 Jun 19:00</small></span></li>`;
+      <span><strong>${esc(e.title)}</strong>${mark}<br><small style="color:var(--muted)">${esc(e.note || "")}</small></span></li>`;
+  }).join("") : `<li><span class="t">—</span><span>Rest day — nothing scheduled.
+    <small style="color:var(--muted)">This week: 🏋️ Mon/Wed/Thu · 🏃 Tue 18:00 &amp; Sat · 💪 Sun 08:00</small></span></li>`;
 })();
 
-/* ==================== inbox digest ==================== */
+/* ==================== inbox ==================== */
 (function inbox() {
   const order = { hot: 0, act: 1, ok: 2, info: 3 };
   const rank = m => Math.min(...m.chips.map(c => order[c[0]]));
   const items = [...LIVE.inbox].sort((a, b) => rank(a) - rank(b));
   const actions = items.filter(m => rank(m) <= 1).length;
   $("inboxHint").textContent = `${actions} need action · ${items.length - actions} FYI`;
-  $("inboxList").innerHTML = items.map(m => `<div class="mailitem">
-    <div class="row1"><span class="ico">${m.ico}</span><strong>${esc(m.title)}</strong>
-      <span class="from">${esc(m.from)}</span></div>
-    <p>${esc(m.body)}</p>
-    ${m.chips.map(([cls, txt]) => `<span class="chip ${cls}">${esc(txt)}</span>`).join("")}
-  </div>`).join("");
+  const dotCol = { 0: "var(--bad)", 1: "var(--warn)", 2: "var(--good)", 3: "var(--blue)" };
+  $("inboxList").innerHTML = items.map(m => `<details class="mailitem" ${rank(m) === 0 ? "open" : ""}>
+    <summary><span class="urgdot" style="background:${dotCol[rank(m)]}"></span>
+      <span class="ico">${m.ico}</span><strong>${esc(m.title)}</strong><span class="from">${esc(m.from)}</span></summary>
+    <div class="inner"><p>${esc(m.body)}</p>
+      ${m.chips.map(([cls, txt]) => `<span class="chip ${cls}">${esc(txt)}</span>`).join("")}</div>
+  </details>`).join("");
 })();
 
-/* ==================== training plan vs strava ==================== */
-function thisWeekIdx() {
-  const ds = todayStr();
-  for (let i = LIVE.weeks.length - 1; i >= 0; i--) if (LIVE.weeks[i].start <= ds) return i;
-  return 0;
-}
-function rowComputed(i, wk) {
-  const w = LIVE.weeks[i], tgt = S.planTargets[i] ?? 0, act = w.actual;
-  const pct = tgt > 0 && act !== null ? Math.min(act / tgt, 1.25) : 0;
-  const col = act === null ? "transparent" : pct >= .9 ? "var(--good)" : pct >= .5 ? "var(--warn)" : "var(--bad)";
-  const status = act === null ? "" :
-    i === wk ? (act >= tgt ? "✅" : "🔶 in progress") :
-    pct >= .9 ? "✅" : pct >= .5 ? "🟡" : "❌";
-  return { pct, col, status };
-}
-function renderPlanTable() {
-  const wk = thisWeekIdx();
-  $("planBody").innerHTML = LIVE.weeks.map((w, i) => {
-    const tgt = S.planTargets[i] ?? 0, lng = S.planLongs[i] ?? 0, act = w.actual;
-    const { pct, col, status } = rowComputed(i, wk);
-    return `<tr class="${i === wk ? "thisweek" : ""}">
-      <td><b>${w.n}</b>${i === wk ? " ←" : ""}</td><td style="color:var(--muted)">${w.label}</td>
-      <td><input type="number" min="0" step="0.5" value="${tgt}" data-tgt="${i}"></td>
-      <td><input type="number" min="0" step="0.5" value="${lng}" data-lng="${i}"></td>
-      <td>${act === null ? '<span style="color:var(--muted)">—</span>' : `<b>${act.toFixed(1)}</b>${w.long ? ` <small style="color:var(--muted)">(long ${w.long})</small>` : ""}`}</td>
-      <td><div class="mini-bar"><div data-bar="${i}" style="width:${Math.min(pct, 1) * 100}%;background:${col}"></div></div></td>
-      <td data-status="${i}">${status}</td></tr>`;
-  }).join("");
-}
-function renderTraining() {
-  const wk = thisWeekIdx();
-
-  // tiles
-  const doneWeeks = LIVE.weeks.filter((w, i) => w.actual !== null && i < wk);
-  const tgtSum = doneWeeks.reduce((s, w, i) => s + (S.planTargets[LIVE.weeks.indexOf(w)] || 0), 0);
-  const actSum = doneWeeks.reduce((s, w) => s + w.actual, 0);
-  const adher = tgtSum ? Math.round(actSum / tgtSum * 100) : 0;
-  const race = new Date(S.raceDate + "T00:00");
-  const days = Math.ceil((race - new Date()) / 864e5);
-  $("racecount").textContent = days;
-  $("trainTiles").innerHTML = [
-    [`${adher}%`, "plan adherence (wks 1–" + wk + ")"],
-    [`${actSum.toFixed(1)} / ${tgtSum} km`, "done vs planned so far"],
-    [`${LIVE.longestRun} km`, "longest run vs 10k goal"],
-    [LIVE.bestRecentPace, "best recent pace /km"],
-    [LIVE.prPace, "5k PR pace /km"],
-    [`${days}d`, "to race day"],
-  ].map(([n, l]) => `<div class="tile"><div class="num">${n}</div><div class="lbl">${l}</div></div>`).join("");
-
-  // chart: target (hollow) vs actual (solid)
-  const svg = $("planChart"); svg.innerHTML = "";
-  const W = 660, H = 200, padL = 32, padB = 24, padT = 10;
-  const maxV = Math.max(...S.planTargets, ...LIVE.weeks.map(w => w.actual || 0)) * 1.15;
-  const bw = (W - padL - 8) / LIVE.weeks.length;
+/* ==================== volume chart ==================== */
+(function volChart() {
+  const svg = $("volChart");
+  const W = 660, H = 190, padL = 32, padB = 24, padT = 12;
+  const maxKm = Math.max(...LIVE.volWeeks.map(w => w.km)) * 1.15;
+  const bw = (W - padL - 8) / LIVE.volWeeks.length;
   [5, 10, 15].forEach(g => {
-    if (g > maxV) return;
-    const y = H - padB - g / maxV * (H - padB - padT);
+    if (g > maxKm) return;
+    const y = H - padB - g / maxKm * (H - padB - padT);
     svgEl("line", { x1: padL, x2: W - 4, y1: y, y2: y, stroke: "#232c3f", "stroke-dasharray": "3 4" }, svg);
     svgEl("text", { x: padL - 5, y: y + 4, fill: "#8b96ab", "font-size": 10, "text-anchor": "end" }, svg).textContent = g;
   });
-  LIVE.weeks.forEach((w, i) => {
-    const x = padL + i * bw + 3, bwi = bw - 6;
-    const tgt = S.planTargets[i] || 0;
-    const th = tgt / maxV * (H - padB - padT);
-    const r1 = svgEl("rect", { x, y: H - padB - th, width: bwi, height: Math.max(th, 1), rx: 3,
-      fill: "none", stroke: i === wk ? "rgba(252,82,0,.8)" : "#3b4a66", "stroke-width": 1.5, "stroke-dasharray": "4 3" }, svg);
-    svgEl("title", {}, r1).textContent = `W${w.n} target: ${tgt} km`;
-    if (w.actual !== null) {
-      const ah = w.actual / maxV * (H - padB - padT);
-      const r2 = svgEl("rect", { x: x + 3, y: H - padB - ah, width: bwi - 6, height: Math.max(ah, w.actual > 0 ? 2 : 0), rx: 3,
-        fill: i === wk ? "rgba(252,82,0,.9)" : "#4a86e8" }, svg);
-      svgEl("title", {}, r2).textContent = `W${w.n} actual: ${w.actual} km`;
-    }
-    svgEl("text", { x: x + bwi / 2, y: H - 8, fill: i === wk ? "#ffb38f" : "#8b96ab", "font-size": 10,
-      "text-anchor": "middle", "font-weight": i === wk ? 700 : 400 }, svg).textContent = "W" + w.n;
+  LIVE.volWeeks.forEach((w, i) => {
+    const h = Math.max(w.km / maxKm * (H - padB - padT), w.km > 0 ? 3 : 1.5);
+    const x = padL + i * bw + 3, y = H - padB - h;
+    const bar = svgEl("rect", { x, y, width: bw - 6, height: h, rx: 4,
+      fill: w.current ? "rgba(252,82,0,.9)" : w.km === 0 ? "#222a3b" : "#4a86e8" }, svg);
+    svgEl("title", {}, bar).textContent = `Week of ${w.label}: ${w.km} km`;
+    if (i % 2 === 0 || w.current)
+      svgEl("text", { x: x + (bw - 6) / 2, y: H - 8, fill: w.current ? "#ffb38f" : "#8b96ab",
+        "font-size": 10, "text-anchor": "middle", "font-weight": w.current ? 700 : 400 }, svg).textContent = w.label;
+    if (w.km > 0)
+      svgEl("text", { x: x + (bw - 6) / 2, y: y - 5, fill: "#cdd6e4", "font-size": 10, "text-anchor": "middle" }, svg).textContent = w.km.toFixed(1);
   });
-
-  // insights
-  const left = (S.planTargets[wk] || 0) - (LIVE.weeks[wk].actual || 0);
-  $("trainInsights").innerHTML = [
-    `<li><strong>This week (W${LIVE.weeks[wk].n}):</strong> ${(LIVE.weeks[wk].actual || 0).toFixed(1)} of ${S.planTargets[wk]} km done — ${left > 0 ? `<strong>${left.toFixed(1)} km to go.</strong> Tonight's Łazienki run is the first chunk.` : "target hit ✅"}</li>`,
-    `<li><strong>Adherence ${adher}%</strong> across completed weeks. The May wobble (W3–W5: 2.6 km total) is what's dragging it — last two weeks you delivered, so the trend is yours again.</li>`,
-    `<li><strong>Long-run gap is the real risk:</strong> longest run ${LIVE.longestRun} km vs 10k race in ${days} days. This weekend target: ${S.planLongs[wk] || 8} km. Slow is fine — distance is the point.</li>`,
-    `<li><strong>VO2 max focus:</strong> comparable runs went 6:33 → 6:24 /km in a month. Keep one quality session/week: 4–5 × 3 min hard, 2 min jog. Your 5k PR pace (5:45) shows the engine is there.</li>`,
-    `<li><strong>Logistics check:</strong> race week is 29 Jun–5 Jul, graduation Fri 19 Jun (travel day), Kołobrzeg from 11 Jul. The plan fits — but W9's long run lands graduation weekend, so plan it for Sat morning.</li>`,
-  ].join("");
-  save();
-}
-$("planBody").addEventListener("input", e => {
-  const t = e.target;
-  const i = +(t.dataset.tgt ?? t.dataset.lng);
-  if (t.dataset.tgt !== undefined) S.planTargets[i] = parseFloat(t.value) || 0;
-  if (t.dataset.lng !== undefined) S.planLongs[i] = parseFloat(t.value) || 0;
-  // update this row's bar + status in place (no table rebuild — keeps focus)
-  const { pct, col, status } = rowComputed(i, thisWeekIdx());
-  const bar = document.querySelector(`[data-bar="${i}"]`);
-  if (bar) { bar.style.width = (Math.min(pct, 1) * 100) + "%"; bar.style.background = col; }
-  const st = document.querySelector(`[data-status="${i}"]`);
-  if (st) st.textContent = status;
-  renderTraining();
-});
-$("raceDate").value = S.raceDate;
-$("raceDate").addEventListener("change", e => { S.raceDate = e.target.value; renderTraining(); });
+})();
 
 /* ==================== shopping & brain dump ==================== */
 function renderList(elId, arr, hintId) {
   $(elId).innerHTML = arr.map(it => `<li class="${it.done ? "done" : ""}">
-    <button class="tick" data-list="${elId}" data-toggle="${it.id}"></button>
+    <button class="tickbtn" data-list="${elId}" data-toggle="${it.id}" aria-label="toggle">✓</button>
     <span>${esc(it.txt)}</span>
-    <button class="del" data-list="${elId}" data-rm="${it.id}">✕</button></li>`).join("") ||
+    <button class="del" data-list="${elId}" data-rm="${it.id}" aria-label="remove">✕</button></li>`).join("") ||
     `<li><span class="empty">Empty — lovely.</span></li>`;
   if (hintId) $(hintId).textContent = `${arr.filter(i => !i.done).length} open`;
   save();
@@ -696,9 +828,7 @@ document.addEventListener("click", e => {
   const b = e.target.closest("button"); if (!b || !b.dataset.list) return;
   const arr = b.dataset.list === "shopList" ? S.shopping : S.dump;
   if (b.dataset.toggle) { const it = arr.find(i => i.id === b.dataset.toggle); if (it) { it.done = !it.done; if (it.done) confetti(); } }
-  if (b.dataset.rm) {
-    const idx = arr.findIndex(i => i.id === b.dataset.rm); if (idx >= 0) arr.splice(idx, 1);
-  }
+  if (b.dataset.rm) { const idx = arr.findIndex(i => i.id === b.dataset.rm); if (idx >= 0) arr.splice(idx, 1); }
   renderList("shopList", S.shopping, "shopHint"); renderList("dumpList", S.dump);
 });
 $("addShop").onclick = () => { const v = $("newShop").value.trim(); if (v) { S.shopping.push({ id: uid(), txt: v, done: false }); $("newShop").value = ""; renderList("shopList", S.shopping, "shopHint"); } };
@@ -720,7 +850,6 @@ document.querySelectorAll(".card").forEach(card => {
 
 /* ==================== go ==================== */
 renderTasks();
-renderPlanTable();
 renderTraining();
 renderList("shopList", S.shopping, "shopHint");
 renderList("dumpList", S.dump);

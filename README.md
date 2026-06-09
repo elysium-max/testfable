@@ -14,9 +14,11 @@ A self-contained, ADHD-friendly daily HQ generated from live personal data
   that knows the weekday (recurring run/gym sessions render on the right days).
 - **Inbox digest** — emails distilled into actions with extracted deadlines,
   sorted urgent-first; FYI items demoted below the fold.
-- **Training: your plan vs reality** — an editable 11-week plan (weekly km +
-  long-run targets) compared week-by-week against actual Strava volume, with
-  adherence %, target-vs-actual chart, race-day countdown, and computed insights.
+- **Training: schedule vs reality** — the real Aspire4Fitness (Keyworth) block:
+  bootcamp Mon/Wed/Thu + Run Club Tue + Saturday run, through 10 July, with the
+  18 June exception. Each session is tickable; scheduled runs auto-match against
+  Strava activity dates. Includes a whole-block season grid, weekly volume chart,
+  and computed insights.
 - **Shopping list & brain dump** — quick-capture lists with one-tap ticking.
 
 ## Persistence model
